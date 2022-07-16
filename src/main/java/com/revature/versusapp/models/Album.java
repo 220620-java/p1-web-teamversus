@@ -6,13 +6,13 @@ public class Album {
     private String title;
     private int artistId;
     
-    Album(String title, int artistId) {
+    public Album(String title, int artistId) {
         this.id = -1;
         this.title = title;
         this.artistId = artistId;
     }
     
-    Album(int id, String title, int artistId) {
+    public Album(int id, String title, int artistId) {
         this.id = -1;
         this.title = title;
         this.artistId = artistId;

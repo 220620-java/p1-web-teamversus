@@ -4,12 +4,12 @@ public class Artist {
     private int id;
     private String stageName;
     
-    Artist(String stageName) {
+    public Artist(String stageName) {
         this.id = id;
         this.stageName = stageName;
     }
     
-    Artist(int id, String stageName) {
+    public Artist(int id, String stageName) {
         this.id = id;
         this.stageName = stageName;
     }
