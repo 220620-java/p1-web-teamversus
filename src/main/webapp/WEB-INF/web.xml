@@ -12,4 +12,16 @@
     <servlet-name>User</servlet-name>
     <url-pattern>/user</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <!-- telling the web container a servlet that it needs to create -->
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.revature.versusapp.servlets.LoginServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <!-- telling the web container which path should go to this servlet -->
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
 </web-app>
