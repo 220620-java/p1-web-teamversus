@@ -2,16 +2,17 @@ package com.revature.versusapp.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.versusapp.models.Artist;
+import com.revature.versusapp.services.ersatz.ErsatzUserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.revature.versusapp.models.Person;
 
 //our servlets should extend HttpServlet
 public class UserServlet extends HttpServlet {
@@ -23,13 +24,16 @@ public class UserServlet extends HttpServlet {
          // gets the response body writer object so that we can write to the response body
          PrintWriter writer = resp.getWriter();
          
-         Person person = new Person("apiuser","1234","Api","User");
+         //Person person = new Person("apiuser","1234","Api","User");
          ObjectMapper objMapper = new ObjectMapper();
+         ErsatzUserService userService = new ErsatzUserService();
+         
+         List<Artist> artists = userService.GetArtists();
          
          String serializedPerson = null;
          try {
              //System.out.println(objMapper.writeValueAsString(user));
-             serializedPerson = objMapper.writeValueAsString(person);
+             serializedPerson = objMapper.writeValueAsString(artists);
          } catch (JsonProcessingException e) {
              e.printStackTrace();
          }
