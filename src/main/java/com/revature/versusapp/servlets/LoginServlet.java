@@ -50,10 +50,10 @@ public class LoginServlet extends HttpServlet {
         
         Credentials credentials = userService.tryToLogin(login);
         
-//        if ( credentials == null || credentials.getId() == -1 ) {
-//            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//            return;
-//        }
+        if ( credentials == null || credentials.getId() == -1 ) {
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
         
         String serialCredential = objMapper.writeValueAsString(credentials);
 

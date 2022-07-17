@@ -46,6 +46,8 @@ public class ErsatzUserService {
         return (existingCount == 1);
     }
     
+    
+    
     public Credentials tryToLogin(Login login) {
         Credentials credentials = new Credentials(-1,-1);
         
