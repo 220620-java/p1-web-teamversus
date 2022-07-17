@@ -14,7 +14,7 @@ public class ObjectMapperUtil {
     }
 
     // factory: creates Connection objects and returns them
-    public ObjectMapper getgetObjectMapper() {
+    public static ObjectMapper getObjectMapper() {
         if ( objMapper == null ) {
             objMapper = new ObjectMapper();
         }
