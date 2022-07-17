@@ -22,7 +22,7 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   
-  <!-- Login servlet -->
+  <!-- Artist servlet -->
   <servlet>
     <servlet-name>Artist</servlet-name>
     <servlet-class>com.revature.versusapp.servlets.ArtistServlet</servlet-class>
@@ -30,6 +30,16 @@
   <servlet-mapping>
     <servlet-name>Artist</servlet-name>
     <url-pattern>/artist</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Album servlet -->
+  <servlet>
+    <servlet-name>Album</servlet-name>
+    <servlet-class>com.revature.versusapp.servlets.AlbumServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Album</servlet-name>
+    <url-pattern>/album</url-pattern>
   </servlet-mapping>
 
 </web-app>
