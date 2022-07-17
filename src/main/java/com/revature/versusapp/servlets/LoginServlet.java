@@ -1,7 +1,6 @@
 package com.revature.versusapp.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
+import com.revature.versusapp.services.ersatz.ErsatzUserService;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
 import jakarta.servlet.ServletException;
@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         ObjectMapper objMapper = ObjectMapperUtil.getObjectMapper();
+        ErsatzUserService userService = new ErsatzUserService();
         
         // Attempt to deserialize the request body as a Login object. Return
         // SC_BAD_REQUEST if unable to do so.
@@ -47,7 +48,13 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         
-        Credentials credentials = new Credentials(1,1);
+        Credentials credentials = userService.tryToLogin(login);
+        
+//        if ( credentials == null || credentials.getId() == -1 ) {
+//            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            return;
+//        }
+        
         String serialCredential = objMapper.writeValueAsString(credentials);
 
         resp.setCharacterEncoding("UTF-8");
