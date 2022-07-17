@@ -41,5 +41,15 @@
     <servlet-name>Album</servlet-name>
     <url-pattern>/album</url-pattern>
   </servlet-mapping>
+  
+  <!-- Inventory servlet -->
+  <servlet>
+    <servlet-name>Inventory</servlet-name>
+    <servlet-class>com.revature.versusapp.servlets.InventoryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Inventory</servlet-name>
+    <url-pattern>/inventory</url-pattern>
+  </servlet-mapping>
 
 </web-app>
