@@ -22,6 +22,16 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   
+  <!-- Registraton servlet -->
+  <servlet>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>com.revature.versusapp.servlets.RegistrationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  
   <!-- Artist servlet -->
   <servlet>
     <servlet-name>Artist</servlet-name>
