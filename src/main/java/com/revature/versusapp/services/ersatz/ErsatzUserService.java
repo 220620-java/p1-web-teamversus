@@ -84,28 +84,5 @@ public class ErsatzUserService {
         return credentials;
     }
     
-    public List<Artist> GetArtists() {
-        List<Artist> artists = new ArrayList<>();
-        
-        try (Connection connection = connUtil.getConnection()) {
 
-            Statement selectStmt = connection.createStatement();
-            ResultSet rs = selectStmt
-                .executeQuery("select id, stage_name from artist;");
-            
-            while(rs.next())
-            {
-               int id = rs.getInt("id");
-               String stageName = rs.getString("stage_name");
-               
-               Artist artist = new Artist(id,stageName);
-               artists.add(artist);
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return artists;
-    }
 }
