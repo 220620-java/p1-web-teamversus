@@ -15,40 +15,40 @@ public class UserService {
     
     public Person login(String username, String password) {
     	Person person = new Person();
-//    	List<Object> allAccounts = dbORM.findAll(person);
-//    	Field field;
-//    	Boolean found = false;
-//		try {
-//			field = person.getClass().getDeclaredField("username");
-//			for (Object object : allAccounts) {
-//	    		if (field.get(object).equals(username)) {
-//	    			Field passwordField = person.getClass().getDeclaredField("passwrd");
-//	    			if(passwordField.get(object).equals(password)) {
-//	    				found = true;
-//		    			person = (Person) object;
-//	    			} else {
-//	    				System.out.println("Password is incorrect");
-//	    				return null;
-//	    			}
-//	    		}
-//	    	}
-//		} catch (NoSuchFieldException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		if (found) {
-//			System.out.println("username not found");
-//			return null;
-//		}
+    	List<Object> allAccounts = dbORM.findAll(person);
+    	Field field;
+    	Boolean found = false;
+		try {
+			field = person.getClass().getDeclaredField("username");
+			for (Object object : allAccounts) {
+	    		if (field.get(object).equals(username)) {
+	    			Field passwordField = person.getClass().getDeclaredField("passwrd");
+	    			if(passwordField.get(object).equals(password)) {
+	    				found = true;
+		    			person = (Person) object;
+	    			} else {
+	    				System.out.println("Password is incorrect");
+	    				return null;
+	    			}
+	    		}
+	    	}
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (found) {
+			System.out.println("username not found");
+			return null;
+		}
     	return person;
     }
     
