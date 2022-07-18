@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         
         Credentials credentials = userService.tryToLogin(login);
         
-        if ( credentials == null || credentials.getId() == -1 ) {
+        if ( credentials == null || credentials.getVersusApiKey().length() == 0 ) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }

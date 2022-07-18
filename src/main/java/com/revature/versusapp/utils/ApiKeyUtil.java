@@ -3,8 +3,7 @@ package com.revature.versusapp.utils;
 import java.util.Random;
 
 public class ApiKeyUtil {
-    static String generateApiKey() {
-        
+    public static String generateApiKey() {
         int zero = 48; // numeral '0'
         int zee = 122; // letter 'z'
         int targetStringLength = 14;
