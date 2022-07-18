@@ -1,6 +1,6 @@
 package com.revature.versusapp.models.rest;
 
-public class Registration extends Login{
+public class JsonRegistration extends Login{
     private String firstname;
     private String lastname;
     

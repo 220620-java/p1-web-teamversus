@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
+import com.revature.versusapp.services.ersatz.ErsatzAlbumService;
 import com.revature.versusapp.services.ersatz.ErsatzUserService;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
@@ -17,6 +18,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class LoginServlet extends HttpServlet {
+    private ObjectMapper objMapper;
+    private ErsatzAlbumService albumService;
+    
+    {
+        albumService = new ErsatzAlbumService();
+        objMapper = ObjectMapperUtil.getObjectMapper();
+    }
+    
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
@@ -59,7 +69,6 @@ public class LoginServlet extends HttpServlet {
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-        resp.setContentLength(serialCredential.length());
         resp.getWriter().write(serialCredential);
     }
 }

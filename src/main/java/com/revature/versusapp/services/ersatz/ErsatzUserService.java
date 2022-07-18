@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.revature.versusapp.models.rest.Credentials;
+import com.revature.versusapp.models.rest.JsonRegistration;
 import com.revature.versusapp.models.rest.Login;
 import com.revature.versusapp.utils.ApiKeyUtil;
 import com.revature.versusapp.utils.ConnectionUtil;
@@ -96,6 +97,50 @@ public class ErsatzUserService {
         }
         
         return apiKey;
+    }
+    
+    
+    
+    public Credentials tryToRegister(JsonRegistration reg) {
+        Credentials credentials = null;
+        
+        if ( hasUser(reg.getUsername()) ) {
+            return credentials;
+        }
+        
+        try (Connection conn = connUtil.getConnection()) {
+            conn.setAutoCommit(false);
+            
+            String sql = "insert into person (username, passwrd, first_name, last_name) values (?, ?, ?, ?);";
+            
+            String[] keys = {"id"};
+            int id;
+            
+            PreparedStatement stmt = conn.prepareStatement(sql, keys);
+            stmt.setString(1, reg.getUsername());
+            stmt.setString(2, reg.getPassword());
+            stmt.setString(3, reg.getFirstname());
+            stmt.setString(4, reg.getLastname());
+            
+            int rowsAffected = stmt.executeUpdate();
+            ResultSet resultSet = stmt.getGeneratedKeys();
+            if (resultSet.next() && rowsAffected==1) {
+                id = resultSet.getInt("id");
+                conn.commit();
+            } else {
+                conn.rollback();
+                return credentials;
+            }
+            
+            String apiKey = setApiKey(id);
+            credentials = new Credentials();
+            credentials.setVersusApiKey(apiKey);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return credentials;
     }
     
     
