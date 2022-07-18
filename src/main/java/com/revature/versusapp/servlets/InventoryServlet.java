@@ -11,6 +11,7 @@ import com.revature.versusapp.models.rest.InventoryItem;
 import com.revature.versusapp.models.rest.JsonError;
 import com.revature.versusapp.models.rest.NewAlbum;
 import com.revature.versusapp.services.ersatz.ErsatzInventoryService;
+import com.revature.versusapp.services.ersatz.ErsatzUserService;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
 import jakarta.servlet.ServletException;
@@ -21,10 +22,12 @@ import jakarta.servlet.http.HttpServletResponse;
 public class InventoryServlet extends HttpServlet{
     private ObjectMapper objMapper;
     private ErsatzInventoryService inventoryService;
+    private ErsatzUserService userService;
     
     {
         objMapper = ObjectMapperUtil.getObjectMapper();
         inventoryService = new ErsatzInventoryService();
+        userService = new ErsatzUserService();
     }
     
     static void writeError(HttpServletResponse resp, int code, String message) {
@@ -101,13 +104,18 @@ public class InventoryServlet extends HttpServlet{
         String apiKey = req.getHeader("versus-api-key");
         
         if ( apiKey == null ) {
-            String message = "versus-api-key must be supplied in request headers";
+            String message = "versus-api-key must be supplied in request header.";
             writeError(resp, HttpServletResponse.SC_BAD_REQUEST, message);
             return;
         }
         
-        // need to be able to convert apiKey to a userid, for now:
-        int userId = 20;
+        int userId = userService.getIdForApiKey(apiKey);
+        
+        if ( userId == -1 ) {
+            String message = "Invalid versus-api-key.";
+            writeError(resp, HttpServletResponse.SC_BAD_REQUEST, message);
+            return;
+        }
         
         
         // should also ensure that it's not already there.
@@ -156,11 +164,9 @@ public class InventoryServlet extends HttpServlet{
             return;
         }
         
-        // need to be able to convert apiKey to a userid, for now:
-        int userId = 20;
+        int userId = userService.getIdForApiKey(apiKey);
         
-        
-        // should also ensure that it's not already there.
+        // should also ensure that it's actually there.
         boolean albumDeleted = inventoryService.deleteAlbumFromInventory(userId,album);
         
         if ( albumDeleted ) {
