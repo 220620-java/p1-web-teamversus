@@ -1,19 +1,24 @@
 package com.revature.versusapp.services;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.versusapp.data.ORM;
+import com.revature.versusapp.models.Album;
+import com.revature.versusapp.models.Inventory;
 import com.revature.versusapp.models.Person;
+import com.revature.versusapp.models.rest.User;
 
 public class UserService { 
     private ORM dbORM;
+    private AlbumService albumService = new AlbumService();
     
     UserService() {
         dbORM = new ORM();
     }
     
-    public Person login(String username, String password) {
+    public User login(String username, String password) {
     	Person person = new Person();
     	List<Object> allAccounts = dbORM.findAll(person);
     	Field field;
@@ -49,16 +54,36 @@ public class UserService {
 			System.out.println("username not found");
 			return null;
 		}
-    	return person;
+		List<Inventory> inventory = InventoryService.getInventoryByPersonId(person);
+		List<Album> userInventory = new ArrayList();
+		try {
+			for (Inventory item : inventory) {
+				Album album = new Album(item.getAlbumId());
+				album = (Album) dbORM.findById(album);
+				userInventory.add(album);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		User user = new User(person, userInventory);
+    	return user;
     }
     
-    public Person register(String username, String password) {
+    public Person tryToRegister(String username, String passwrd, String firstName, String lastName) {
         //This is totally wrong and needs to be made to work.
-        Person newPerson = new Person();
-        newPerson.setId(3);
-        
-        newPerson = (Person) dbORM.findById(newPerson);
-        
-        return newPerson;
+    	Person person = new Person(username, passwrd, firstName, lastName);
+    	List<Object> allAccounts = dbORM.findAll(person);
+    	
+    	person = (Person) dbORM.create(person);
+        return person;
+    }
+    
+    public void delete(Person person) {
+    	dbORM.delete(person);
+    }
+    
+    public void update(Person person) {
+    	dbORM.update(person);
     }
 }

@@ -4,7 +4,12 @@ public class NewAlbum {
     private String title;
     private String artist;
 
-    public String getTitle() {
+    public NewAlbum(String title, String artist) {
+		super();
+		this.title = title;
+		this.artist = artist;
+	}
+	public String getTitle() {
         return title;
     }
     public void setTitle(String title) {

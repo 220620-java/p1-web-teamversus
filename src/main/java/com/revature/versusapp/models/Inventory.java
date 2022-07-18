@@ -4,7 +4,11 @@ public class Inventory {
     private int personId;
     private int albumId;
     
-    public Inventory(int personId, int albumId) {
+    public Inventory() {
+		super();
+	}
+
+	public Inventory(int personId, int albumId) {
         this.personId = personId;
         this.albumId = albumId;
     }

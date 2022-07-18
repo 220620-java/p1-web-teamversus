@@ -1,7 +1,7 @@
 package com.revature.versusapp.models;
 
 import java.util.Objects;
-
+@PrimaryKey(name={"id"})
 public class Person {
     private int id;
     private String username;

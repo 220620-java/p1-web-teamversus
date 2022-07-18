@@ -1,12 +1,21 @@
 package com.revature.versusapp.models;
-
+@PrimaryKey(name={"id"})
 public class Album {
 
     private int id;
     private String title;
     private int artistId;
     
-    public Album(String title, int artistId) {
+    public Album() {
+		super();
+	}
+
+	public Album(int id) {
+		super();
+		this.id = id;
+	}
+
+	public Album(String title, int artistId) {
         this.id = -1;
         this.title = title;
         this.artistId = artistId;
