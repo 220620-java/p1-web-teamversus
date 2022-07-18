@@ -1,0 +1,305 @@
+swagger: '2.0'
+info:
+  description: |
+    Welcome to the Versus API reference. With the Versus API you can keep track
+    of the albums by a musical artist, add them to your collection, view other
+    user's collections, and more.
+
+    The Versus API is organized around the
+    [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
+    methodology, and it uses resource-oriented URLs, and common HTTP response
+    codes to indicate API errors. Some requests are authenticated using an
+    api key which obtained when using the login or register paths.
+  version: 0.0.1
+  title: The Versus API
+  contact:
+    name: TeamVersus
+host: ec2-3-89-220-184.compute-1.amazonaws.com:8080
+basePath: /versusapi
+schemes:
+  - http
+consumes: 
+  - "application/json"
+produces: 
+  - "application/json"
+paths: 
+  /login: 
+    post: 
+      tags:
+        - Login
+      description: "Allows a user to login and obtain an api key."
+      operationId: "login"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "Login"
+          in: "body"
+          description: "The object with the user's username and password"
+          required: true
+          schema: 
+            $ref: "#/definitions/Login"
+      responses: 
+        "200":
+          description: "A credentials object for use in subsequent calls."
+          schema: 
+            $ref: "#/definitions/Credentials"
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+  /register: 
+    post: 
+      tags:
+        - Register
+      description: "Allows a person to create an account and obtain an api key."
+      operationId: "register"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "Registration"
+          in: "body"
+          description: "The information that will be used to create the account."
+          required: true
+          schema: 
+            $ref: "#/definitions/Registration"
+      responses: 
+        "200":
+          description: "A credentials object for use in subsequent calls."
+          schema: 
+            $ref: "#/definitions/Credentials"
+        "409":
+          description: "The username provided is already in use."
+          schema: 
+            $ref: "#/definitions/Error"
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+  /artist:
+    get:
+      tags:
+        - Artist
+      description: "View the artists known in the system."
+      operationId: "get_all_artists"
+      produces: 
+        - "application/json"
+      responses:
+        default:
+          description: Successful operation
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Artist'
+    post:
+      tags:
+        - Artist
+      description: "Adds an artist to the system."
+      operationId: "add_artist_to_api"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "artist"
+          in: "body"
+          description: "The artist to be added"
+          required: true
+          schema: 
+            $ref: "#/definitions/Artist"
+      responses: 
+        "200":
+          description: "The artist was successfully added."
+        "409":
+          description: "The artist is already in the system."
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+  /album:
+    get:
+      tags:
+        - Album
+      description: "View the albums known in the system."
+      operationId: "get_all_albums"
+      produces: 
+        - "application/json"
+      responses:
+        default:
+          description: Successful operation
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Album'
+    post:
+      tags:
+        - Album
+      description: "Adds an album to the system."
+      operationId: "add_album_to_api"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "album"
+          in: "body"
+          description: "The album to be added"
+          required: true
+          schema: 
+            $ref: "#/definitions/Album"
+      responses: 
+        "200":
+          description: "The album was successfully added."
+        "409":
+          description: "The album is already in the system."
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+  /inventory:
+    get:
+      tags:
+        - Inventory
+      description: "View the inventory for all users."
+      operationId: "getallinventory"
+      produces: 
+        - "application/json"
+      responses:
+        default:
+          description: Successful operation
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/InventoryItem'
+    post:
+      tags:
+        - Inventory
+      description: "Adds an album to a users inventory."
+      operationId: "addalbumtousersinventory"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "album"
+          in: "body"
+          description: "The album to be added"
+          required: true
+          schema: 
+            $ref: "#/definitions/Album"
+        - name: versus-api-key
+          in: header
+          required: true
+          type: string
+      responses: 
+        "200":
+          description: "The album was successfully added."
+        "401":
+          description: "The api key provided is invalid."
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+        - Inventory
+      description: "Deletes an album to a users inventory."
+      operationId: "delete_albumt_from_users_inventory"
+      produces: 
+        - "application/json"
+      parameters: 
+        - name: "album"
+          in: "body"
+          description: "The album to be deleted"
+          required: true
+          schema: 
+            $ref: "#/definitions/Album"
+        - name: versus-api-key
+          in: header
+          required: true
+          type: string
+      responses: 
+        "200":
+          description: "The album was successfully deleted."
+        "401":
+          description: "The api key provided is invalid."
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+securityDefinitions:
+  versus-api-key:
+    type: apiKey
+    description: Provides API Key access to the Versus API
+    in: header
+definitions: 
+  Login: 
+    type: "object"
+    required:
+      - "username"
+      - "password"
+    properties: 
+      username: 
+        type: "string"
+        example: "yourusername"
+      password: 
+        type: "string"
+  Registration: 
+    type: "object"
+    allOf: 
+      - 
+        $ref: "#/definitions/Login"
+      - 
+        properties: 
+          firstname: 
+            type: "string"
+          lastname: 
+            type: "string"
+  Credentials: 
+    type: "object"
+    required:
+      - "versus-api-key"
+    properties: 
+      versus-api-key: 
+        type: "string"
+        example: "xxxx-yyyy-zzzz"
+  Artist: 
+    type: "object"
+    required:
+      - "stagename"
+    properties: 
+      stagename: 
+        type: "string"
+        example: "Cardiff Revival"
+  Album: 
+    type: "object"
+    required:
+      - "stagename"
+      - "title"
+    properties: 
+      stagename: 
+        type: "string"
+        example: "Cardiff Revival"
+      title: 
+        type: "string"
+        example: "Courage of Fools"
+  InventoryItem:
+    type: "object"
+    required: 
+      - "username"
+    properties:
+      username:
+        type: string
+        example: "yourusername"
+      albums:
+        type: array
+        xml:
+          name: album
+          wrapped: true
+        items:
+          $ref: '#/definitions/Album'
+  Error: 
+    type: "object"
+    required: 
+      - "code"
+    properties: 
+      code: 
+        type: "integer"
+        format: "int32"
+        example: 400
+      message: 
+        type: "string"
+        example: "The request was not formatted correctly."
