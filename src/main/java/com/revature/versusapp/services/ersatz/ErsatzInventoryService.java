@@ -1,13 +1,13 @@
 package com.revature.versusapp.services.ersatz;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.versusapp.models.Artist;
 import com.revature.versusapp.models.rest.InventoryItem;
 import com.revature.versusapp.models.rest.NewAlbum;
 import com.revature.versusapp.utils.ConnectionUtil;
@@ -18,6 +18,124 @@ public class ErsatzInventoryService {
     public ErsatzInventoryService() {
         connUtil = ConnectionUtil.getConnectionUtil();
     }
+    
+    int getArtistId(String stageName) {
+        int artistId = -1;
+        
+        try (Connection connection = connUtil.getConnection()) {
+
+            String query = "select id from artist where stage_name=?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, stageName);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                artistId = rs.getInt("id");
+            }
+            
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+        }
+        
+        return artistId;
+    }
+    
+    
+    
+    int getAlbumId(String stageName, String title) {
+        int albumId = -1;
+        
+        int artistId = getArtistId(stageName);
+        
+        if ( artistId == -1 ) {
+            return albumId;
+        }
+        
+        try (Connection connection = connUtil.getConnection()) {
+
+            String query = "select id from album where artist_id = ? and title = ?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, artistId);
+            pstmt.setString(2, title);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                albumId = rs.getInt("id");
+            }
+            
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+        }
+        
+        return albumId;
+    }
+    
+    public boolean deleteAlbumFromInventory(int userId, NewAlbum album) {
+        boolean albumDeleted = false;
+        
+        int albumId = getAlbumId(album.getArtist(), album.getTitle());
+        
+        if ( albumId == -1 ) {
+            return false;
+        }
+        
+        try (Connection connection = connUtil.getConnection()) {
+
+            String query = "delete from inventory where person_id=? and album_id =?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, albumId);
+            
+            pstmt.executeUpdate();
+            
+            pstmt.close();
+            albumDeleted = true;
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+        }
+        
+        return albumDeleted;
+    }
+    
+    public boolean addAblumToInventory(int userId, NewAlbum album) {
+        boolean albumAdded = false;
+        
+        int albumId = getAlbumId(album.getArtist(), album.getTitle());
+        
+        if ( albumId == -1 ) {
+            return false;
+        }
+        
+        try (Connection connection = connUtil.getConnection()) {
+
+            String query = "insert into inventory(person_id,album_id) values (?,?);";
+            
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, albumId);
+            
+            pstmt.executeUpdate();
+            
+            pstmt.close();
+            albumAdded = true;
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+        }
+        
+        return albumAdded;
+    }
+    
     
     public List<InventoryItem> getInventory(){
         List<InventoryItem> inventory = new ArrayList<InventoryItem>();
@@ -58,7 +176,7 @@ public class ErsatzInventoryService {
                 
                 // If we've reached a new username, put the current item
                 // in the inventory and start a new one.
-                if ( item.getUsername()!= null && item.getUsername().equals(username) ) {
+                if (  !item.getUsername().equals(username) ) {
                     inventory.add(item);
                     item = new InventoryItem();
                     item.setUsername(username);
