@@ -30,7 +30,7 @@ public class InventoryService {
 		dbORM.delete(item);
 	}
 	
-	public static List<Inventory> getInventories() {
+	public List<Inventory> getInventories() {
 		List<Inventory> allInventories = new ArrayList();
 		Inventory inventory = new Inventory();
 		
@@ -48,7 +48,7 @@ public class InventoryService {
 		return allInventories;
 	}
 	
-	public static List<Inventory> getInventoryByPersonId(Person person) {
+	public List<Inventory> getInventoryByPersonId(Person person) {
 		int personId = person.getId();
 		List<Inventory> inventory = getInventories();
 		for(Inventory item : inventory) {

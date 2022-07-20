@@ -18,7 +18,6 @@ public class Album {
 		super();
 		this.id = id;
 	}
-
 	public Album(String title, int artistId) {
         this.id = -1;
         this.title = title;

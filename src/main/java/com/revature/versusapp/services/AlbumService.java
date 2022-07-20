@@ -6,7 +6,6 @@ import java.util.List;
 import com.revature.versusapp.data.ORM;
 import com.revature.versusapp.models.Album;
 import com.revature.versusapp.models.Artist;
-import com.revature.versusapp.models.rest.NewAlbum;
 
 public class AlbumService {
 	private static ORM dbORM;
@@ -23,7 +22,7 @@ public class AlbumService {
 		return true;
 	}
 	
-	public static Album getAlbumById(Album album) {
+	public Album getAlbumById(Album album) {
 		try {
 			album = (Album) dbORM.findById(album);
 		} catch (Exception e) {

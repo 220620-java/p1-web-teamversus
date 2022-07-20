@@ -10,7 +10,7 @@ import com.revature.versusapp.models.Person;
 public class ApiKeyService {
 	private static ORM dbORM;
 	
-	public boolean appToApiKeyTable(Person person, String key) {
+	public boolean addToApiKeyTable(Person person, String key) {
 		ApiKey apikey = new ApiKey(key, person.getId());
 		
 		apikey = (ApiKey) dbORM.create(key);

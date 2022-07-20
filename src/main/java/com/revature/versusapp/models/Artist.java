@@ -19,7 +19,7 @@ public class Artist {
 
 
 	public Artist(String stageName) {
-        this.id = id;
+        super();
         this.stageName = stageName;
     }
     
