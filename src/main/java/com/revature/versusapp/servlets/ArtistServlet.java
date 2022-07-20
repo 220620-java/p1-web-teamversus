@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class ArtistServlet extends HttpServlet{
+public class ArtistServlet extends ErrorReportingHttpServlet{
     
     private ArtistService artistService;
     private ObjectMapper objMapper;
@@ -34,54 +34,34 @@ public class ArtistServlet extends HttpServlet{
 
         List<Artist> artists = artistService.getArtists();
         
-        String artistList = null;
-        try {
-            artistList = objMapper.writeValueAsString(artists);
-        } catch (JsonProcessingException e) {
-            
-        }
-        
-        if ( artistList != null ) {
-            resp.setCharacterEncoding("UTF-8");
-            resp.setContentType("application/json");
-            resp.setContentLength(artistList.length());
-            resp.getWriter().write(artistList);
-        }
-        else {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("Serialization has failed.\n");
-        }
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        objMapper.writeValue(resp.getWriter(), artists);
     }
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        // Attempt to deserialize the request body as a Login object. Return
+        // Attempt to deserialize the request body as a NewArtist object. Return
         // SC_BAD_REQUEST if unable to do so.
-        String body = req.getReader()
-                         .lines()
-                         .collect(Collectors.joining(System.lineSeparator()));
         boolean hasError = false;
-        String errorString = "";
         NewArtist newArtist = null;
-        
+        int code =  HttpServletResponse.SC_OK;
+        String errorMessage = "";
+
         try {
-            newArtist = objMapper.readValue(body, NewArtist.class);
-        } catch (JsonMappingException e) {
-            hasError = true;
-            errorString = e.getMessage();
+            newArtist = objMapper.readValue(req.getReader(), NewArtist.class);
         } catch (JsonProcessingException e) {
             hasError = true;
-            errorString = e.getMessage();
+            errorMessage = e.getMessage();
+            code = HttpServletResponse.SC_BAD_REQUEST;
         }
-        
-        if ( hasError ) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write(errorString);
+
+        if (hasError) {
+            writeErrorResponse(resp, code, errorMessage);
             return;
         }
         
-        Artist artist = new Artist(newArtist.getStageName());
+        Artist artist = new Artist(newArtist.getStagename());
         
         boolean artistAdded = artistService.addArtist(artist);
         
@@ -89,7 +69,8 @@ public class ArtistServlet extends HttpServlet{
             resp.setStatus(HttpServletResponse.SC_OK);
         }
         else {
-            resp.setStatus(422);
+            errorMessage = "Unable to add artist to the database,";
+            writeErrorResponse(resp, 422, errorMessage);
         }
     }
 }

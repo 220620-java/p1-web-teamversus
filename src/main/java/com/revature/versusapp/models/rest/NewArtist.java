@@ -1,13 +1,13 @@
 package com.revature.versusapp.models.rest;
 
 public class NewArtist {
-    private String stageName;
+    private String stagename;
 
-    public String getStageName() {
-        return stageName;
+    public String getStagename() {
+        return stagename;
     }
 
-    public void setStageName(String stageName) {
-        this.stageName = stageName;
+    public void setStagename(String stagename) {
+        this.stagename = stagename;
     }
 }

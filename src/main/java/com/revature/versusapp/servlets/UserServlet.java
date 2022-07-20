@@ -21,29 +21,29 @@ public class UserServlet extends HttpServlet {
      // for the request and response and pass those in
      @Override
      protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         // gets the response body writer object so that we can write to the response body
-         PrintWriter writer = resp.getWriter();
-         
-         //Person person = new Person("apiuser","1234","Api","User");
-         ObjectMapper objMapper = new ObjectMapper();
-         ErsatzArtistService artistService = new ErsatzArtistService();
-         
-         List<Artist> artists = artistService.getArtists();
-         
-         String serializedPerson = null;
-         try {
-             //System.out.println(objMapper.writeValueAsString(user));
-             serializedPerson = objMapper.writeValueAsString(artists);
-         } catch (JsonProcessingException e) {
-             e.printStackTrace();
-         }
-         
-         if ( serializedPerson != null ) {
-             writer.write(serializedPerson);
-         }
-         else {
-             writer.write("Serialization has failed.\n");
-         }
+//         // gets the response body writer object so that we can write to the response body
+//         PrintWriter writer = resp.getWriter();
+//         
+//         //Person person = new Person("apiuser","1234","Api","User");
+//         ObjectMapper objMapper = new ObjectMapper();
+//         ErsatzArtistService artistService = new ErsatzArtistService();
+//         
+//         List<Artist> artists = artistService.getArtists();
+//         
+//         String serializedPerson = null;
+//         try {
+//             //System.out.println(objMapper.writeValueAsString(user));
+//             serializedPerson = objMapper.writeValueAsString(artists);
+//         } catch (JsonProcessingException e) {
+//             e.printStackTrace();
+//         }
+//         
+//         if ( serializedPerson != null ) {
+//             writer.write(serializedPerson);
+//         }
+//         else {
+//             writer.write("Serialization has failed.\n");
+//         }
          
          
      }
