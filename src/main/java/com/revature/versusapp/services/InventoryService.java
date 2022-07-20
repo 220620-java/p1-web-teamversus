@@ -35,7 +35,7 @@ public class InventoryService {
 		Inventory inventory = new Inventory();
 		
 		try {
-			for (Object object : dbORM.findAll(inventory)) {
+			for (Object object : dbORM.findAll(Inventory.class)) {
 				inventory = inventory.getClass().getConstructor().newInstance();
 				inventory = (Inventory) object;
 				allInventories.add(inventory);

@@ -20,7 +20,7 @@ public class UserService {
     
     public User login(String username, String password) {
     	Person person = new Person();
-    	List<Object> allAccounts = dbORM.findAll(person);
+    	List<Object> allAccounts = dbORM.findAll(Person.class);
     	Field field;
     	Boolean found = false;
 		try {
@@ -73,7 +73,7 @@ public class UserService {
     public Person tryToRegister(String username, String passwrd, String firstName, String lastName) {
         //This is totally wrong and needs to be made to work.
     	Person person = new Person(username, passwrd, firstName, lastName);
-    	List<Object> allAccounts = dbORM.findAll(person);
+    	List<Object> allAccounts = dbORM.findAll(Person.class);
     	
     	person = (Person) dbORM.create(person);
         return person;
