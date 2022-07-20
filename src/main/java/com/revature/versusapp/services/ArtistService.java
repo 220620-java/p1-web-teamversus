@@ -21,6 +21,11 @@ public class ArtistService {
 		return true;
 	}
 	
+	public Artist getArtistById(Artist artist) {
+		artist = (Artist) dbORM.findById(artist);
+		return artist;
+	}
+	
 	public List<Artist> getArtists() {
 		List<Object> findAllArtists = dbORM.findAll(Artist.class);
 		List<Artist> allArtists = new ArrayList();
