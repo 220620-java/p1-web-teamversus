@@ -63,24 +63,39 @@
             </ul>
           </section>
           <section>
+            <a href="#tag-User">User</a>
+            <ul>
+              <li>
+                <a href="#operation--user-get"> GET /user </a>
+              </li>
+              <li>
+                <a href="#operation--user--username--get"> GET /user/{username} </a>
+              </li>
+            </ul>
+          </section>
+          <section>
             <a href="#tag-Inventory">Inventory</a>
             <ul>
               <li>
-                <a href="#operation--inventory-get"> GET /inventory </a>
+                <a href="#operation--user--username--inventory-get"> GET /user/{username}/inventory </a>
               </li>
               <li>
-                <a href="#operation--inventory-post"> POST /inventory </a>
+                <a href="#operation--user--username--inventory-post"> POST /user/{username}/inventory </a>
               </li>
               <li>
-                <a href="#operation--inventory-delete"> DELETE /inventory </a>
+                <a href="#operation--user--username--inventory-delete"> DELETE /user/{username}/inventory </a>
               </li>
             </ul>
           </section>
           <h5>Schema Definitions</h5>
           <a href="#definition-Login"> Login </a>
+          <a href="#definition-Person"> Person </a>
           <a href="#definition-Registration"> Registration </a>
           <a href="#definition-Credentials"> Credentials </a>
+          <a href="#definition-NewArtist"> NewArtist </a>
           <a href="#definition-Artist"> Artist </a>
+          <a href="#definition-NewAlbum"> NewAlbum </a>
+          <a href="#definition-AlbumId"> AlbumId </a>
           <a href="#definition-Album"> Album </a>
           <a href="#definition-InventoryItem"> InventoryItem </a>
           <a href="#definition-Error"> Error </a>
@@ -98,7 +113,8 @@
             </h1>
             <div class="doc-row">
               <div class="doc-copy">
-                <p>Welcome to the Versus API reference. With the Versus API you can keep track of the albums by a musical artist, add them to your collection, view other user&#39;s collections, and more.</p>
+                <p>Welcome to the Versus API reference. With
+                  <a href="https://github.com/220620-java/p1-web-teamversus">the Versus API</a> you can keep track of the albums by a musical artist, add them to your collection, view other user&#39;s collections, and more.</p>
                 <p>The Versus API is organized around the
                   <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> methodology, and it uses resource-oriented URLs, and common HTTP response codes to indicate API errors. Some requests are authenticated using an api key which obtained when using the login or register paths.</p>
               </div>
@@ -201,8 +217,8 @@
                 <section>
                   <h5>Request Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
-  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;YsUCnEUSJk&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -320,10 +336,10 @@
                 <section>
                   <h5>Request Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
-  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;Artur&quot;</span>,
+  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;Walczak&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;YsUCnEUSJk&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -476,6 +492,7 @@
                   </h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
   {
+    <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-number">12</span>,
     <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>
   }
 ]
@@ -518,7 +535,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/Artist">Artist</a>
+                          <a class="json-schema-ref" href="#/definitions/NewArtist">NewArtist</a>
                         </span>
                       </div>
                     </div>
@@ -655,7 +672,9 @@
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
   {
     <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
-    <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
+    <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
+    <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>,
+    <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
   }
 ]
 </code></pre>
@@ -697,7 +716,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/Album">Album</a>
+                          <a class="json-schema-ref" href="#/definitions/NewAlbum">NewAlbum</a>
                         </span>
                       </div>
                     </div>
@@ -713,7 +732,7 @@
                 <section>
                   <h5>Request Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
+  <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
   <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
 }
 </code></pre>
@@ -774,12 +793,12 @@
               </div>
             </div>
           </div>
-          <h1 id="tag-Inventory" class="swagger-summary-tag" data-traverse-target="tag-Inventory">Inventory</h1>
-          <div id="operation--inventory-get" class="operation panel" data-traverse-target="operation--inventory-get">
+          <h1 id="tag-User" class="swagger-summary-tag" data-traverse-target="tag-User">User</h1>
+          <div id="operation--user-get" class="operation panel" data-traverse-target="operation--user-get">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
             <div class="operation-tags">
-              <a class="label" href="#tag-Inventory">Inventory</a>
+              <a class="label" href="#tag-User">User</a>
               <!---->
             </div>
             <!-- </div> -->
@@ -787,7 +806,7 @@
             <h2 class="operation-title">
               <span class="operation-name">
                 <span class="operation-name">GET</span>
-                <span class="operation-path">/inventory</span>
+                <span class="operation-path">/user</span>
               </span>
             </h2>
             <div class="doc-row content-types">
@@ -797,7 +816,125 @@
             <div class="doc-row">
               <div class="doc-copy">
                 <section class="swagger-operation-description">
-                  <p>View the inventory for all users.</p>
+                  <p>View the list of all current API users.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/Person">Person</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The profile was successfully retrieved.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">404 Not Found</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/Error">Error</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>There is no user with that username.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">default </div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/Error">Error</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>Unexpected error</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;Artur&quot;</span>,
+  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;Walczak&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(404 Not Found)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(default )</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--user--username--get" class="operation panel" data-traverse-target="operation--user--username--get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User">User</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">GET</span>
+                <span class="operation-path">/user/{username}</span>
+              </span>
+            </h2>
+            <div class="doc-row content-types">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>View an API user&#39;s profile.</p>
                 </section>
               </div>
             </div>
@@ -811,11 +948,7 @@
                   <div class="prop-row prop-group">
                     <div class="prop-name">
                       <div class="prop-title">default </div>
-                      <div class="prop-ref">
-                        <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/InventoryItem">InventoryItem</a>
-                        </span>
-                      </div>
+                      <div class="prop-ref"></div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
                     </div>
                     <div class="prop-value">
@@ -833,15 +966,8 @@
                     <span>(default )</span>
                   </h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
-  {
-    <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
-    <span class="hljs-attr">&quot;albums&quot;</span>: [
-      {
-        <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
-        <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
-      }
-    ]
-  }
+  <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-string">&quot;zgearen&quot;</span>
 ]
 </code></pre>
                   <!-- </div> -->
@@ -849,7 +975,132 @@
               </div>
             </div>
           </div>
-          <div id="operation--inventory-post" class="operation panel" data-traverse-target="operation--inventory-post">
+          <h1 id="tag-Inventory" class="swagger-summary-tag" data-traverse-target="tag-Inventory">Inventory</h1>
+          <div id="operation--user--username--inventory-get" class="operation panel" data-traverse-target="operation--user--username--inventory-get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Inventory">Inventory</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">GET</span>
+                <span class="operation-path">/user/{username}/inventory</span>
+              </span>
+            </h2>
+            <div class="doc-row content-types">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>View an API user&#39;s inventory.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/InventoryItem">InventoryItem</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The inventory was successfully retrieved.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">404 Not Found</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/Error">Error</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>There is no user with that username.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">default </div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/Error">Error</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>Unexpected error</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
+  <span class="hljs-attr">&quot;albums&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
+      <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
+      <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>,
+      <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
+    }
+  ]
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(404 Not Found)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(default )</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--user--username--inventory-post" class="operation panel" data-traverse-target="operation--user--username--inventory-post">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
             <div class="operation-tags">
@@ -861,7 +1112,7 @@
             <h2 class="operation-title">
               <span class="operation-name">
                 <span class="operation-name">POST</span>
-                <span class="operation-path">/inventory</span>
+                <span class="operation-path">/user/{username}/inventory</span>
               </span>
             </h2>
             <div class="doc-row content-types">
@@ -871,7 +1122,7 @@
             <div class="doc-row">
               <div class="doc-copy">
                 <section class="swagger-operation-description">
-                  <p>Adds an album to a users inventory.</p>
+                  <p>Adds an album to a users inventory. Note that a valid, matching API key is needed for this operation.</p>
                 </section>
               </div>
             </div>
@@ -882,7 +1133,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/Album">Album</a>
+                          <a class="json-schema-ref" href="#/definitions/AlbumId">AlbumId</a>
                         </span>
                       </div>
                     </div>
@@ -900,7 +1151,7 @@
                       <span class="json-property-required"></span>
                     </div>
                     <div class="prop-value">
-                      <p class="no-description">(no description)</p>
+                      <p>The API key assigned to {username}</p>
                     </div>
                   </div>
                   <div class="prop-row prop-inner">
@@ -920,8 +1171,7 @@
                 <section>
                   <h5>Request Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
-  <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
+  <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -981,7 +1231,7 @@
               </div>
             </div>
           </div>
-          <div id="operation--inventory-delete" class="operation panel" data-traverse-target="operation--inventory-delete">
+          <div id="operation--user--username--inventory-delete" class="operation panel" data-traverse-target="operation--user--username--inventory-delete">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
             <div class="operation-tags">
@@ -993,7 +1243,7 @@
             <h2 class="operation-title">
               <span class="operation-name">
                 <span class="operation-name">DELETE</span>
-                <span class="operation-path">/inventory</span>
+                <span class="operation-path">/user/{username}/inventory</span>
               </span>
             </h2>
             <div class="doc-row content-types">
@@ -1003,7 +1253,7 @@
             <div class="doc-row">
               <div class="doc-copy">
                 <section class="swagger-operation-description">
-                  <p>Deletes an album to a users inventory.</p>
+                  <p>Deletes an album to a users inventory. Note that a valid, matching API key is needed for this operation.</p>
                 </section>
               </div>
             </div>
@@ -1014,7 +1264,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/Album">Album</a>
+                          <a class="json-schema-ref" href="#/definitions/AlbumId">AlbumId</a>
                         </span>
                       </div>
                     </div>
@@ -1032,7 +1282,7 @@
                       <span class="json-property-required"></span>
                     </div>
                     <div class="prop-value">
-                      <p class="no-description">(no description)</p>
+                      <p>The API key assigned to {username}</p>
                     </div>
                   </div>
                   <div class="prop-row prop-inner">
@@ -1052,8 +1302,7 @@
                 <section>
                   <h5>Request Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
-  <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
+  <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -1124,6 +1373,9 @@
             </h2>
             <div class="doc-row">
               <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The information needed to login.</p>
+                </section>
                 <section class="json-schema-properties">
                   <dl>
                     <dt data-property-name="username">
@@ -1145,8 +1397,58 @@
                 <section>
                   <h5>Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
-  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;YsUCnEUSJk&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-Person" class="definition panel" data-traverse-target="definition-Person">
+            <h2 class="panel-title">
+              <a name="/definitions/Person"></a>Person:
+              <span class="json-property-type">
+                <span class="json-property-type">object</span>
+                <span class="json-property-range" title="Value limits"></span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The information publicly available about an API user.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="username">
+                      <span class="json-property-name">username:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="firstname">
+                      <span class="json-property-name">firstname:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="lastname">
+                      <span class="json-property-name">lastname:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;Artur&quot;</span>,
+  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;Walczak&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -1164,40 +1466,31 @@
             </h2>
             <div class="doc-row">
               <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The information needed to register. These are for input only and never returned by any API calls.</p>
+                </section>
                 <section class="json-schema-allOf">
                   <section class="json-schema-allOf-inherited">
                     <ul>
                       <span class="">
                         <a class="json-schema-ref" href="#/definitions/Login">Login</a>
                       </span>
+                      <span class="">
+                        <a class="json-schema-ref" href="#/definitions/Person">Person</a>
+                      </span>
                     </ul>
                   </section>
-                  <section class="json-schema-allOf-additional">
-                    <section class="json-schema-properties">
-                      <dl>
-                        <dt data-property-name="firstname">
-                          <span class="json-property-name">firstname:</span>
-                          <span class="json-property-type">string</span>
-                          <span class="json-property-range" title="Value limits"></span>
-                        </dt>
-                        <dt data-property-name="lastname">
-                          <span class="json-property-name">lastname:</span>
-                          <span class="json-property-type">string</span>
-                          <span class="json-property-range" title="Value limits"></span>
-                        </dt>
-                      </dl>
-                    </section>
-                  </section>
+                  <section class="json-schema-allOf-additional"> </section>
                 </section>
               </div>
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;yourusername&quot;</span>,
-  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-attr">&quot;firstname&quot;</span>: <span class="hljs-string">&quot;Artur&quot;</span>,
+  <span class="hljs-attr">&quot;lastname&quot;</span>: <span class="hljs-string">&quot;Walczak&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;YsUCnEUSJk&quot;</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -1215,6 +1508,9 @@
             </h2>
             <div class="doc-row">
               <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>Returned when a user registers or logs in. A user will need to add an entry like <code>versus-api-key=xxxx-yyyy-zzzz</code> to their request headers for some API calls.</p>
+                </section>
                 <section class="json-schema-properties">
                   <dl>
                     <dt data-property-name="versus-api-key">
@@ -1238,9 +1534,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-Artist" class="definition panel" data-traverse-target="definition-Artist">
+          <div id="definition-NewArtist" class="definition panel" data-traverse-target="definition-NewArtist">
             <h2 class="panel-title">
-              <a name="/definitions/Artist"></a>Artist:
+              <a name="/definitions/NewArtist"></a>NewArtist:
               <span class="json-property-type">
                 <span class="json-property-type">object</span>
                 <span class="json-property-range" title="Value limits"></span>
@@ -1248,6 +1544,9 @@
             </h2>
             <div class="doc-row">
               <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The information needed to add a new artist to the database.</p>
+                </section>
                 <section class="json-schema-properties">
                   <dl>
                     <dt data-property-name="stagename">
@@ -1271,9 +1570,57 @@
               </div>
             </div>
           </div>
-          <div id="definition-Album" class="definition panel" data-traverse-target="definition-Album">
+          <div id="definition-Artist" class="definition panel" data-traverse-target="definition-Artist">
             <h2 class="panel-title">
-              <a name="/definitions/Album"></a>Album:
+              <a name="/definitions/Artist"></a>Artist:
+              <span class="json-property-type">
+                <span class="json-property-type"></span>
+                <span class="json-property-range" title="Value limits"></span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The full information for an artist in the database. An id is included for each artist to help distinguish two artists that have the same stage name.</p>
+                </section>
+                <section class="json-schema-allOf">
+                  <section class="json-schema-allOf-inherited">
+                    <ul>
+                      <span class="">
+                        <a class="json-schema-ref" href="#/definitions/NewArtist">NewArtist</a>
+                      </span>
+                    </ul>
+                  </section>
+                  <section class="json-schema-allOf-additional">
+                    <section class="json-schema-properties">
+                      <dl>
+                        <dt data-property-name="id">
+                          <span class="json-property-name">id:</span>
+                          <span class="json-property-type">integer</span>
+                          <span class="json-property-format">(int64)</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </dt>
+                      </dl>
+                    </section>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-NewAlbum" class="definition panel" data-traverse-target="definition-NewAlbum">
+            <h2 class="panel-title">
+              <a name="/definitions/NewAlbum"></a>NewAlbum:
               <span class="json-property-type">
                 <span class="json-property-type">object</span>
                 <span class="json-property-range" title="Value limits"></span>
@@ -1281,11 +1628,15 @@
             </h2>
             <div class="doc-row">
               <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The information needed to add a new album to the database.</p>
+                </section>
                 <section class="json-schema-properties">
                   <dl>
-                    <dt data-property-name="stagename">
-                      <span class="json-property-name">stagename:</span>
-                      <span class="json-property-type">string</span>
+                    <dt data-property-name="artistId">
+                      <span class="json-property-name">artistId:</span>
+                      <span class="json-property-type">integer</span>
+                      <span class="json-property-format">(int64)</span>
                       <span class="json-property-range" title="Value limits"></span>
                       <span class="json-property-required"></span>
                     </dt>
@@ -1302,8 +1653,97 @@
                 <section>
                   <h5>Example</h5>
                   <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
-  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
+  <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
   <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-AlbumId" class="definition panel" data-traverse-target="definition-AlbumId">
+            <h2 class="panel-title">
+              <a name="/definitions/AlbumId"></a>AlbumId:
+              <span class="json-property-type">
+                <span class="json-property-type">object</span>
+                <span class="json-property-range" title="Value limits"></span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The database id of an album. These objects are used for adding and removing items from a user&#39;s inventory.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="albumId">
+                      <span class="json-property-name">albumId:</span>
+                      <span class="json-property-type">integer</span>
+                      <span class="json-property-format">(int64)</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-Album" class="definition panel" data-traverse-target="definition-Album">
+            <h2 class="panel-title">
+              <a name="/definitions/Album"></a>Album:
+              <span class="json-property-type">
+                <span class="json-property-type"></span>
+                <span class="json-property-range" title="Value limits"></span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The full information for an album in the database.</p>
+                </section>
+                <section class="json-schema-allOf">
+                  <section class="json-schema-allOf-inherited">
+                    <ul>
+                      <span class="">
+                        <a class="json-schema-ref" href="#/definitions/AlbumId">AlbumId</a>
+                      </span>
+                      <span class="">
+                        <a class="json-schema-ref" href="#/definitions/NewAlbum">NewAlbum</a>
+                      </span>
+                    </ul>
+                  </section>
+                  <section class="json-schema-allOf-additional">
+                    <section class="json-schema-properties">
+                      <dl>
+                        <dt data-property-name="stagename">
+                          <span class="json-property-name">stagename:</span>
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </dt>
+                      </dl>
+                    </section>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
+  <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>,
+  <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
 }
 </code></pre>
                   <!-- </div> -->
@@ -1345,7 +1785,9 @@
   <span class="hljs-attr">&quot;albums&quot;</span>: [
     {
       <span class="hljs-attr">&quot;stagename&quot;</span>: <span class="hljs-string">&quot;Cardiff Revival&quot;</span>,
-      <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>
+      <span class="hljs-attr">&quot;artistId&quot;</span>: <span class="hljs-number">12</span>,
+      <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Courage of Fools&quot;</span>,
+      <span class="hljs-attr">&quot;albumId&quot;</span>: <span class="hljs-number">17</span>
     }
   ]
 }

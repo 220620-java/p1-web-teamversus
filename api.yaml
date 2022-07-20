@@ -1,9 +1,10 @@
 swagger: '2.0'
 info:
   description: |
-    Welcome to the Versus API reference. With the Versus API you can keep track
-    of the albums by a musical artist, add them to your collection, view other
-    user's collections, and more.
+    Welcome to the Versus API reference. With
+    [the Versus API](https://github.com/220620-java/p1-web-teamversus) you can
+    keep track     of the albums by a musical artist, add them to your
+    collection, view other user's collections, and more.
 
     The Versus API is organized around the
     [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
@@ -103,7 +104,7 @@ paths:
           description: "The artist to be added"
           required: true
           schema: 
-            $ref: "#/definitions/Artist"
+            $ref: "#/definitions/NewArtist"
       responses: 
         "200":
           description: "The artist was successfully added."
@@ -141,7 +142,7 @@ paths:
           description: "The album to be added"
           required: true
           schema: 
-            $ref: "#/definitions/Album"
+            $ref: "#/definitions/NewAlbum"
       responses: 
         "200":
           description: "The album was successfully added."
@@ -151,12 +152,33 @@ paths:
           description: "Unexpected error"
           schema: 
             $ref: "#/definitions/Error"
-  /inventory:
+  /user:
     get:
       tags:
-        - Inventory
-      description: "View the inventory for all users."
-      operationId: "getallinventory"
+        - User
+      description: "View the list of all current API users."
+      operationId: "get_all_usernames"
+      produces: 
+        - "application/json"
+      responses: 
+        "200":
+          description: "The profile was successfully retrieved."
+          schema: 
+            $ref: "#/definitions/Person"
+        "404":
+          description: "There is no user with that username."
+          schema: 
+            $ref: "#/definitions/Error"
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
+  /user/{username}:
+    get:
+      tags:
+        - User
+      description: "View an API user's profile."
+      operationId: "get_user_profile"
       produces: 
         - "application/json"
       responses:
@@ -165,11 +187,35 @@ paths:
           schema:
               type: array
               items:
-                $ref: '#/definitions/InventoryItem'
+                type : "string"
+              example:
+                - "abraddon12"
+                - "zgearen"
+  /user/{username}/inventory:
+    get:
+      tags:
+        - Inventory
+      description: "View an API user's inventory."
+      operationId: "get_user_inventory"
+      produces: 
+        - "application/json"
+      responses:
+        "200":
+          description: "The inventory was successfully retrieved."
+          schema: 
+            $ref: "#/definitions/InventoryItem"
+        "404":
+          description: "There is no user with that username."
+          schema: 
+            $ref: "#/definitions/Error"
+        default: 
+          description: "Unexpected error"
+          schema: 
+            $ref: "#/definitions/Error"
     post:
       tags:
         - Inventory
-      description: "Adds an album to a users inventory."
+      description: "Adds an album to a users inventory. Note that a valid, matching API key is needed for this operation."
       operationId: "addalbumtousersinventory"
       produces: 
         - "application/json"
@@ -179,9 +225,10 @@ paths:
           description: "The album to be added"
           required: true
           schema: 
-            $ref: "#/definitions/Album"
+            $ref: "#/definitions/AlbumId"
         - name: versus-api-key
           in: header
+          description: The API key assigned to {username}
           required: true
           type: string
       responses: 
@@ -196,8 +243,7 @@ paths:
     delete:
       tags:
         - Inventory
-      description: "Deletes an album to a users inventory."
-      operationId: "delete_albumt_from_users_inventory"
+      description: "Deletes an album to a users inventory. Note that a valid, matching API key is needed for this operation."
       produces: 
         - "application/json"
       parameters: 
@@ -206,9 +252,10 @@ paths:
           description: "The album to be deleted"
           required: true
           schema: 
-            $ref: "#/definitions/Album"
+            $ref: "#/definitions/AlbumId"
         - name: versus-api-key
           in: header
+          description: The API key assigned to {username}
           required: true
           type: string
       responses: 
@@ -228,54 +275,118 @@ securityDefinitions:
 definitions: 
   Login: 
     type: "object"
+    description: The information needed to login.
     required:
       - "username"
       - "password"
     properties: 
       username: 
         type: "string"
-        example: "yourusername"
+        example: "abraddon12"
       password: 
         type: "string"
+        example: "YsUCnEUSJk"
+  Person: 
+    type: "object"
+    description: The information publicly available about an API user.
+    required:
+      - "username"
+      - "firstname"
+      - "lastname"
+    properties: 
+      username: 
+        type: "string"
+        example: "abraddon12"
+      firstname: 
+        type: "string"
+        example: "Artur"
+      lastname: 
+        type: "string"
+        example: "Walczak"
   Registration: 
     type: "object"
+    description: The information needed to register. These are for input only and never returned by any API calls.
     allOf: 
       - 
         $ref: "#/definitions/Login"
       - 
-        properties: 
-          firstname: 
-            type: "string"
-          lastname: 
-            type: "string"
+        $ref: "#/definitions/Person"
   Credentials: 
     type: "object"
+    description: Returned when a user registers or logs in. A user will need to
+      add an entry like `versus-api-key=xxxx-yyyy-zzzz` to their request headers
+      for some API calls.
     required:
       - "versus-api-key"
     properties: 
       versus-api-key: 
         type: "string"
         example: "xxxx-yyyy-zzzz"
+  NewArtist: 
+    type: "object"
+    description: The information needed to add a new artist to the database.
+    required:
+      - "stagename"
+    properties: 
+      stagename: 
+        type: "string"
+        example: "Cardiff Revival"
   Artist: 
     type: "object"
+    description: The full information for an artist in the database. An id is
+      included for each artist to help distinguish two artists that have the
+      same stage name.
     required:
-      - "stagename"
-    properties: 
-      stagename: 
-        type: "string"
-        example: "Cardiff Revival"
-  Album: 
+      - "id"
+    allOf: 
+      - 
+        $ref: "#/definitions/NewArtist"
+      - 
+        properties: 
+          id: 
+            type: "integer"
+            format: "int64"
+            example: 12
+  NewAlbum:
     type: "object"
+    description: The information needed to add a new album to the database.
     required:
-      - "stagename"
+      - "artistId"
       - "title"
     properties: 
-      stagename: 
-        type: "string"
-        example: "Cardiff Revival"
-      title: 
-        type: "string"
-        example: "Courage of Fools"
+        artistId: 
+          type: "integer"
+          format: "int64"
+          example: 12
+        title: 
+          type: "string"
+          example: "Courage of Fools"
+  AlbumId:
+    type: "object"
+    description: The database id of an album. These objects are used for adding
+      and removing items from a user's inventory.
+    required:
+      - "albumId"
+    properties: 
+        albumId: 
+          type: "integer"
+          format: "int64"
+          example: 17
+  Album: 
+    type: "object"
+    description: The full information for an album in the database.
+    required:
+      - "stagename"
+    allOf: 
+      - 
+        $ref: "#/definitions/AlbumId"
+      - 
+        $ref: "#/definitions/NewAlbum"
+      - 
+        properties: 
+          stagename: 
+            type: "string"
+            example: "Cardiff Revival"
   InventoryItem:
     type: "object"
     required: 
