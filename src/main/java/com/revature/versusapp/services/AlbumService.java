@@ -11,7 +11,7 @@ import com.revature.versusapp.models.rest.NewAlbum;
 public class AlbumService {
 	private static ORM dbORM;
 	
-	AlbumService() {
+	public AlbumService() {
         dbORM = new ORM();
     }
 	

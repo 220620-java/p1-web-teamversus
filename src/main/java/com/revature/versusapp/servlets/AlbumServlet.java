@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.versusapp.models.Album;
 import com.revature.versusapp.models.rest.NewAlbum;
+import com.revature.versusapp.services.AlbumService;
 import com.revature.versusapp.services.ersatz.ErsatzAlbumService;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
@@ -19,10 +20,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class AlbumServlet extends HttpServlet{
     private ObjectMapper objMapper;
-    private ErsatzAlbumService albumService;
+    private AlbumService albumService;
     
     {
-        albumService = new ErsatzAlbumService();
+        albumService = new AlbumService();
         objMapper = ObjectMapperUtil.getObjectMapper();
     }
     
@@ -77,9 +78,9 @@ public class AlbumServlet extends HttpServlet{
             return;
         }
         
-        boolean albumAdded = albumService.addAlbum(newAlbum);
+        //boolean albumAdded = albumService.addAlbum(newAlbum);
         
-        if ( albumAdded ) {
+        if ( true ) {
             resp.setStatus(HttpServletResponse.SC_OK);
         }
         else {

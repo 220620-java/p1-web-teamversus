@@ -9,7 +9,7 @@ import com.revature.versusapp.models.Artist;
 public class ArtistService {
 	private ORM dbORM;
 	
-	ArtistService() {
+	public ArtistService() {
 	    dbORM = new ORM();
 	}
 	

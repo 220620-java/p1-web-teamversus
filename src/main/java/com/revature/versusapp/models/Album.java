@@ -1,4 +1,8 @@
 package com.revature.versusapp.models;
+
+import java.util.Objects;
+import com.revature.versusapp.data.PrimaryKey;
+
 @PrimaryKey(name={"id"})
 public class Album {
 
@@ -50,4 +54,28 @@ public class Album {
     public void setArtistId(int artistId) {
         this.artistId = artistId;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artistId, id, title);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Album other = (Album) obj;
+        return artistId == other.artistId && id == other.id && Objects.equals(title, other.title);
+    }
+
+    @Override
+    public String toString() {
+        return "Album [id=" + id + ", title=" + title + ", artistId=" + artistId + "]";
+    }
+    
+    
 }

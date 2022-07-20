@@ -1,5 +1,6 @@
 package com.revature.versusapp.models;
 
+
 public class Inventory {
     private int personId;
     private int albumId;

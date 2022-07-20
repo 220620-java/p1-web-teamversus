@@ -164,9 +164,9 @@ public class ErsatzInventoryService {
                 title = rs.getString("title");
                 stageName = rs.getString("stage_name");
                 
-                NewAlbum album = new NewAlbum();
-                album.setArtist(stageName);
-                album.setTitle(title);
+                NewAlbum album = new NewAlbum(stageName,title);
+//                album.setArtist(stageName);
+//                album.setTitle(title);
                 
                 // For the first time through the loop, item.getUsername()
                 // will be null, so set it to username here.

@@ -11,7 +11,7 @@ import com.revature.versusapp.models.Artist;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
 import com.revature.versusapp.models.rest.NewArtist;
-import com.revature.versusapp.services.ersatz.ErsatzArtistService;
+import com.revature.versusapp.services.ArtistService;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
 import jakarta.servlet.ServletException;
@@ -21,11 +21,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ArtistServlet extends HttpServlet{
     
-    private ErsatzArtistService artistService;
+    private ArtistService artistService;
     private ObjectMapper objMapper;
     
     {
-        artistService = new ErsatzArtistService();
+        artistService = new ArtistService();
         objMapper = ObjectMapperUtil.getObjectMapper();
     }
     
@@ -81,7 +81,9 @@ public class ArtistServlet extends HttpServlet{
             return;
         }
         
-        boolean artistAdded = artistService.addArtist(newArtist);
+        Artist artist = new Artist(newArtist.getStageName());
+        
+        boolean artistAdded = artistService.addArtist(artist);
         
         if ( artistAdded ) {
             resp.setStatus(HttpServletResponse.SC_OK);
