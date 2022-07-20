@@ -1,10 +1,17 @@
 package com.revature.versusapp.services;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.versusapp.data.ORM;
 import com.revature.versusapp.models.Album;
+=======
+import java.util.LinkedList;
+import java.util.List;
+
+import com.revature.versusapp.data.ORM;
+>>>>>>> d73a97f (Handle get on base user path)
 import com.revature.versusapp.models.Person;
 
 public class UserService { 
@@ -13,6 +20,15 @@ public class UserService {
     
     public UserService() {
         dbORM = new ORM();
+    }
+    
+    public List<Person> getPeople() {
+        List<Object> findAllPeople = dbORM.findAll(Person.class);
+        List<Person> allPeople = new LinkedList<>();
+        for (Object person : findAllPeople) {
+            allPeople.add((Person) person);
+        }
+        return allPeople;
     }
     
     public boolean login(String username, String password) {
