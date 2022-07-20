@@ -1,74 +1,74 @@
 package com.revature.versusapp.servlets;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
-import com.revature.versusapp.services.ersatz.ErsatzAlbumService;
-import com.revature.versusapp.services.ersatz.ErsatzUserService;
+import com.revature.versusapp.services.UserService;
+import com.revature.versusapp.services.ersatz.ErsatzAuthService;
+import com.revature.versusapp.utils.ApiKeyUtil;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends ErrorReportingHttpServlet {
     private ObjectMapper objMapper;
-    private ErsatzAlbumService albumService;
-    
+    private UserService userService;
+    private ErsatzAuthService authService;
+
     {
-        albumService = new ErsatzAlbumService();
+        userService = new UserService();
         objMapper = ObjectMapperUtil.getObjectMapper();
+        authService = new ErsatzAuthService();
     }
-    
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        ObjectMapper objMapper = ObjectMapperUtil.getObjectMapper();
-        ErsatzUserService userService = new ErsatzUserService();
-        
+
         // Attempt to deserialize the request body as a Login object. Return
         // SC_BAD_REQUEST if unable to do so.
-        String body = req.getReader()
-                         .lines()
-                         .collect(Collectors.joining(System.lineSeparator()));
         boolean hasError = false;
-        String errorString = "";
         Login login = null;
-        
+        int code =  HttpServletResponse.SC_OK;
+        String errorMessage = "";
+
         try {
-            login = objMapper.readValue(body, Login.class);
-        } catch (JsonMappingException e) {
-            hasError = true;
-            errorString = e.getMessage();
+            login = objMapper.readValue(req.getReader(), Login.class);
         } catch (JsonProcessingException e) {
             hasError = true;
-            errorString = e.getMessage();
+            errorMessage = e.getMessage();
+            code = HttpServletResponse.SC_BAD_REQUEST;
         }
-        
-        if ( hasError ) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write(errorString);
-            return;
-        }
-        
-        Credentials credentials = userService.tryToLogin(login);
-        
-        if ( credentials == null || credentials.getVersusApiKey().length() == 0 ) {
-            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-        
-        String serialCredential = objMapper.writeValueAsString(credentials);
 
+        if (hasError) {
+            writeErrorResponse(resp, code, errorMessage);
+            return;
+        }
+
+        // Try to login.
+        boolean loginWasSuccessful = userService.login(login.getUsername(),
+                                                       login.getPassword());
+
+        if ( !loginWasSuccessful ) {
+            errorMessage = "Username or password is incorrect.";
+            code = HttpServletResponse.SC_UNAUTHORIZED;
+            writeErrorResponse(resp, code, errorMessage);
+            return;
+        }
+
+        // Generate an apikey for this login and return it to the user.
+        String key = ApiKeyUtil.generateApiKey();
+        authService.addToApiKeyTable(login.getUsername(), key);
+        Credentials credentials = new Credentials();
+        credentials.setVersusApiKey(key);
+        
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-        resp.getWriter().write(serialCredential);
+        objMapper.writeValue(resp.getWriter(), credentials);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }
