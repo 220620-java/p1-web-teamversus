@@ -99,6 +99,7 @@
           <a href="#definition-Album"> Album </a>
           <a href="#definition-InventoryItem"> InventoryItem </a>
           <a href="#definition-Error"> Error </a>
+          <a href="#definition-String"> String </a>
         </nav>
       </div>
       <div id="docs" class="row collapse expanded drawer" data-drawer>
@@ -829,6 +830,73 @@
                 <section class="swagger-responses">
                   <div class="prop-row prop-group">
                     <div class="prop-name">
+                      <div class="prop-title">default </div>
+                      <div class="prop-ref">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/String">String</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>Successful operation</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(default )</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
+  <span class="hljs-string">&quot;abraddon12&quot;</span>,
+  <span class="hljs-string">&quot;zgearen&quot;</span>
+]
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--user--username--get" class="operation panel" data-traverse-target="operation--user--username--get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User">User</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">GET</span>
+                <span class="operation-path">/user/{username}</span>
+              </span>
+            </h2>
+            <div class="doc-row content-types">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>View an API user&#39;s profile.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
                       <div class="prop-title">200 OK</div>
                       <div class="prop-ref">
                         <span class="">
@@ -906,69 +974,6 @@
   <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
   <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
 }
-</code></pre>
-                  <!-- </div> -->
-                </section>
-              </div>
-            </div>
-          </div>
-          <div id="operation--user--username--get" class="operation panel" data-traverse-target="operation--user--username--get">
-            <!-- <section class="operation-tags row"> -->
-            <!-- <div class="doc-copy"> -->
-            <div class="operation-tags">
-              <a class="label" href="#tag-User">User</a>
-              <!---->
-            </div>
-            <!-- </div> -->
-            <!-- </section> -->
-            <h2 class="operation-title">
-              <span class="operation-name">
-                <span class="operation-name">GET</span>
-                <span class="operation-path">/user/{username}</span>
-              </span>
-            </h2>
-            <div class="doc-row content-types">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"> </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-description">
-                  <p>View an API user&#39;s profile.</p>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"></div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-responses">
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">default </div>
-                      <div class="prop-ref"></div>
-                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
-                    </div>
-                    <div class="prop-value">
-                      <p>Successful operation</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <div class="doc-examples">
-                <h5>Response Content-Types:
-                  <span>application/json</span>
-                </h5>
-                <section>
-                  <h5>Response Example
-                    <span>(default )</span>
-                  </h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">[
-  <span class="hljs-string">&quot;abraddon12&quot;</span>,
-  <span class="hljs-string">&quot;zgearen&quot;</span>
-]
 </code></pre>
                   <!-- </div> -->
                 </section>
@@ -1831,6 +1836,26 @@
   <span class="hljs-attr">&quot;code&quot;</span>: <span class="hljs-number">400</span>,
   <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;The request was not formatted correctly.&quot;</span>
 }
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-String" class="definition panel" data-traverse-target="definition-String">
+            <h2 class="panel-title">
+              <a name="/definitions/String"></a>String:
+              <span class="json-property-type">
+                <span class="json-property-type">string</span>
+                <span class="json-property-range" title="Value limits"></span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json"><span class="hljs-string">&quot;a string&quot;</span>
 </code></pre>
                   <!-- </div> -->
                 </section>

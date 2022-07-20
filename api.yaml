@@ -160,6 +160,22 @@ paths:
       operationId: "get_all_usernames"
       produces: 
         - "application/json"
+      responses:
+        default:
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/String'
+            example: ["abraddon12", "zgearen"]
+  /user/{username}:
+    get:
+      tags:
+        - User
+      description: "View an API user's profile."
+      operationId: "get_user_profile"
+      produces: 
+        - "application/json"
       responses: 
         "200":
           description: "The profile was successfully retrieved."
@@ -173,24 +189,6 @@ paths:
           description: "Unexpected error"
           schema: 
             $ref: "#/definitions/Error"
-  /user/{username}:
-    get:
-      tags:
-        - User
-      description: "View an API user's profile."
-      operationId: "get_user_profile"
-      produces: 
-        - "application/json"
-      responses:
-        default:
-          description: Successful operation
-          schema:
-              type: array
-              items:
-                type : "string"
-              example:
-                - "abraddon12"
-                - "zgearen"
   /user/{username}/inventory:
     get:
       tags:
@@ -414,3 +412,6 @@ definitions:
       message: 
         type: "string"
         example: "The request was not formatted correctly."
+  String: 
+    type: string
+    example: "a string"
