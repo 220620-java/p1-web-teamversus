@@ -1,14 +1,14 @@
 package com.revature.versusapp.models.rest;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InventoryItem {
     private String username;
-    List<NewAlbum> albums;
+    List<JsonAlbum> albums;
     
     {
-        albums = new ArrayList<NewAlbum>();
+        albums = new LinkedList<JsonAlbum>();
     }
 
     public String getUsername() {
@@ -19,11 +19,11 @@ public class InventoryItem {
         this.username = username;
     }
 
-    public List<NewAlbum> getAlbums() {
+    public List<JsonAlbum> getAlbums() {
         return albums;
     }
 
-    public void setAlbums(List<NewAlbum> albums) {
+    public void setAlbums(List<JsonAlbum> albums) {
         this.albums = albums;
     }
 }

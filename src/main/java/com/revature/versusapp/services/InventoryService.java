@@ -12,7 +12,7 @@ import com.revature.versusapp.models.Person;
 public class InventoryService {
 	private static ORM dbORM;
 	
-	InventoryService() {
+	public InventoryService() {
         dbORM = new ORM();
     }
 	
