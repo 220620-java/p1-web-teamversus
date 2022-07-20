@@ -45,33 +45,33 @@ public class ErsatzAlbumService {
         return artistId;
     }
     
-    public boolean addAlbum(NewAlbum album) {
-        boolean albumAdded = false;
-        
-        int artistId = getArtistId(album.getArtist());
-        
-        if ( artistId == -1 ) {
-            return false;
-        }
-        
-        try (Connection connection = connUtil.getConnection()) {
-
-            String query = "insert into album (title, artist_id) values (?, ?);";
-            
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, album.getTitle());
-            pstmt.setInt(2, artistId);
-            
-            pstmt.executeUpdate();
-            
-            pstmt.close();
-            albumAdded = true;
-        } catch (SQLException e) {
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
-        }
-        
-        return albumAdded;
-    }
+//    public boolean addAlbum(NewAlbum album) {
+//        boolean albumAdded = false;
+//        
+//        int artistId = getArtistId(album.getArtist());
+//        
+//        if ( artistId == -1 ) {
+//            return false;
+//        }
+//        
+//        try (Connection connection = connUtil.getConnection()) {
+//
+//            String query = "insert into album (title, artist_id) values (?, ?);";
+//            
+//            PreparedStatement pstmt = connection.prepareStatement(query);
+//            pstmt.setString(1, album.getTitle());
+//            pstmt.setInt(2, artistId);
+//            
+//            pstmt.executeUpdate();
+//            
+//            pstmt.close();
+//            albumAdded = true;
+//        } catch (SQLException e) {
+//            System.err.println(e.getClass().getName()+": "+e.getMessage());
+//        }
+//        
+//        return albumAdded;
+//    }
     
     
     public List<Album> getAlbums() {

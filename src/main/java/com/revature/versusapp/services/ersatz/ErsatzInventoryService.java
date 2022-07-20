@@ -83,27 +83,27 @@ public class ErsatzInventoryService {
     public boolean deleteAlbumFromInventory(int userId, NewAlbum album) {
         boolean albumDeleted = false;
         
-        int albumId = getAlbumId(album.getArtist(), album.getTitle());
-        
-        if ( albumId == -1 ) {
-            return false;
-        }
-        
-        try (Connection connection = connUtil.getConnection()) {
-
-            String query = "delete from inventory where person_id=? and album_id =?;";
-            
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, albumId);
-            
-            pstmt.executeUpdate();
-            
-            pstmt.close();
-            albumDeleted = true;
-        } catch (SQLException e) {
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
-        }
+//        int albumId = getAlbumId(album.getArtist(), album.getTitle());
+//        
+//        if ( albumId == -1 ) {
+//            return false;
+//        }
+//        
+//        try (Connection connection = connUtil.getConnection()) {
+//
+//            String query = "delete from inventory where person_id=? and album_id =?;";
+//            
+//            PreparedStatement pstmt = connection.prepareStatement(query);
+//            pstmt.setInt(1, userId);
+//            pstmt.setInt(2, albumId);
+//            
+//            pstmt.executeUpdate();
+//            
+//            pstmt.close();
+//            albumDeleted = true;
+//        } catch (SQLException e) {
+//            System.err.println(e.getClass().getName()+": "+e.getMessage());
+//        }
         
         return albumDeleted;
     }
@@ -111,27 +111,27 @@ public class ErsatzInventoryService {
     public boolean addAblumToInventory(int userId, NewAlbum album) {
         boolean albumAdded = false;
         
-        int albumId = getAlbumId(album.getArtist(), album.getTitle());
-        
-        if ( albumId == -1 ) {
-            return false;
-        }
-        
-        try (Connection connection = connUtil.getConnection()) {
-
-            String query = "insert into inventory(person_id,album_id) values (?,?);";
-            
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, albumId);
-            
-            pstmt.executeUpdate();
-            
-            pstmt.close();
-            albumAdded = true;
-        } catch (SQLException e) {
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
-        }
+//        int albumId = getAlbumId(album.getArtist(), album.getTitle());
+//        
+//        if ( albumId == -1 ) {
+//            return false;
+//        }
+//        
+//        try (Connection connection = connUtil.getConnection()) {
+//
+//            String query = "insert into inventory(person_id,album_id) values (?,?);";
+//            
+//            PreparedStatement pstmt = connection.prepareStatement(query);
+//            pstmt.setInt(1, userId);
+//            pstmt.setInt(2, albumId);
+//            
+//            pstmt.executeUpdate();
+//            
+//            pstmt.close();
+//            albumAdded = true;
+//        } catch (SQLException e) {
+//            System.err.println(e.getClass().getName()+": "+e.getMessage());
+//        }
         
         return albumAdded;
     }
@@ -140,57 +140,57 @@ public class ErsatzInventoryService {
     public List<InventoryItem> getInventory(){
         List<InventoryItem> inventory = new ArrayList<InventoryItem>();
         
-        try (Connection connection = connUtil.getConnection()) {
-
-            Statement selectStmt = connection.createStatement();
-            ResultSet rs = selectStmt
-                .executeQuery("select username, title, stage_name \r\n"
-                        + "from inventory \r\n"
-                        + "inner join person on inventory.person_id = person.id \r\n"
-                        + "inner join album on inventory.album_id = album.id \r\n"
-                        + "inner join artist on album.artist_id = artist.id \r\n"
-                        + "order by username,stage_name,title;");
-            
-            String username = null;
-            String title = null;
-            String stageName = null;
-            
-            InventoryItem item = new InventoryItem();
-            boolean hasItems = false;
-            
-            while(rs.next())
-            {
-                username = rs.getString("username");
-                title = rs.getString("title");
-                stageName = rs.getString("stage_name");
-                
-                NewAlbum album = new NewAlbum(stageName,title);
-//                album.setArtist(stageName);
-//                album.setTitle(title);
-                
-                // For the first time through the loop, item.getUsername()
-                // will be null, so set it to username here.
-                if ( item.getUsername() == null ) {
-                    item.setUsername(username);
-                }
-                
-                // If we've reached a new username, put the current item
-                // in the inventory and start a new one.
-                if (  !item.getUsername().equals(username) ) {
-                    inventory.add(item);
-                    item = new InventoryItem();
-                    item.setUsername(username);
-                }
-                
-                item.getAlbums().add(album);
-            }
-            
-            //Add the last item that was worked on to inventory.
-            inventory.add(item);
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection connection = connUtil.getConnection()) {
+//
+//            Statement selectStmt = connection.createStatement();
+//            ResultSet rs = selectStmt
+//                .executeQuery("select username, title, stage_name \r\n"
+//                        + "from inventory \r\n"
+//                        + "inner join person on inventory.person_id = person.id \r\n"
+//                        + "inner join album on inventory.album_id = album.id \r\n"
+//                        + "inner join artist on album.artist_id = artist.id \r\n"
+//                        + "order by username,stage_name,title;");
+//            
+//            String username = null;
+//            String title = null;
+//            String stageName = null;
+//            
+//            InventoryItem item = new InventoryItem();
+//            boolean hasItems = false;
+//            
+//            while(rs.next())
+//            {
+//                username = rs.getString("username");
+//                title = rs.getString("title");
+//                stageName = rs.getString("stage_name");
+//                
+//                NewAlbum album = new NewAlbum(stageName,title);
+////                album.setArtist(stageName);
+////                album.setTitle(title);
+//                
+//                // For the first time through the loop, item.getUsername()
+//                // will be null, so set it to username here.
+//                if ( item.getUsername() == null ) {
+//                    item.setUsername(username);
+//                }
+//                
+//                // If we've reached a new username, put the current item
+//                // in the inventory and start a new one.
+//                if (  !item.getUsername().equals(username) ) {
+//                    inventory.add(item);
+//                    item = new InventoryItem();
+//                    item.setUsername(username);
+//                }
+//                
+//                item.getAlbums().add(album);
+//            }
+//            
+//            //Add the last item that was worked on to inventory.
+//            inventory.add(item);
+//            
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         
         return inventory;
     }
