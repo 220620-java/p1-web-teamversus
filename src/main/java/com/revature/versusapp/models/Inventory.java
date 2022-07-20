@@ -1,6 +1,8 @@
 package com.revature.versusapp.models;
 
+import com.revature.versusapp.data.PrimaryKey;
 
+@PrimaryKey(name={"id"})
 public class Inventory {
     private int personId;
     private int albumId;
