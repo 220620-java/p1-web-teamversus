@@ -22,23 +22,23 @@ class UserServiceTest {
     @Mock
     private ORM dbORM;
     
-    @Test
-    void testRegisterValidUser() {
-        Person mockPerson = userServ.tryToRegister("username","password","Sierra","Nicholes");
-
-        // Ensure that the ORM will give us a nonnull person objcet.
-        //Mockito.when(dbORM.findById(any(Person.class))).thenReturn(mockPerson);
-        
-        // assertion
-        assertNotNull(mockPerson);
-    }
+//    @Test
+//    void testRegisterValidUser() {
+//        Person mockPerson = userServ.tryToRegister("username","password","Sierra","Nicholes");
+//
+//        // Ensure that the ORM will give us a nonnull person objcet.
+//        //Mockito.when(dbORM.findById(any(Person.class))).thenReturn(mockPerson);
+//        
+//        // assertion
+//        assertNotNull(mockPerson);
+//    }
     
-    @Test
-    void testRegisterInvalidUser() {
-    	Person mockPerson = userServ.tryToRegister("pslyde0", "", "duplicate", "username");
-    	
-    	assertNotNull(mockPerson);
-    }
+//    @Test
+//    void testRegisterInvalidUser() {
+//    	Person mockPerson = userServ.tryToRegister("pslyde0", "", "duplicate", "username");
+//    	
+//    	assertNotNull(mockPerson);
+//    }
     
 //    @Test
 //    void testLoginValidUser() {
