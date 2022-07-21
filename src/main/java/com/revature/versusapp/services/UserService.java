@@ -24,8 +24,7 @@ public class UserService {
     }
     
     public Person login(String username, String password) {
-    	//Person person = new Person();
-        Person foundPerson = null;
+        Person foundPerson = new Person();
     	List<Object> allAccounts = dbORM.findAll(Person.class);
     	
     	
@@ -35,7 +34,7 @@ public class UserService {
     	    if ( personObject.getUsername().equals(username) ) {
     	        if ( personObject.getPassword().equals(password) ) {
     	            foundPerson = personObject;
-    	            
+    	            break;
                 }
     	        
     	        break;
@@ -48,7 +47,6 @@ public class UserService {
     public Person tryToRegister(String username, String passwrd, String firstName, String lastName) {
         //This is totally wrong and needs to be made to work.
     	Person person = new Person(username, passwrd, firstName, lastName);
-    	List<Object> allAccounts = dbORM.findAll(Person.class);
     	
     	person = (Person) dbORM.create(person);
         return person;
