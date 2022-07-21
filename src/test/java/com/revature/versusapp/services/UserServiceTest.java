@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,30 +29,35 @@ class UserServiceTest {
     
     @Test
     void testRegisterValidUser() {
-        Person mockPerson = userServ.tryToRegister("username","password","Sierra","Nicholes");
-
-        // Ensure that the ORM will give us a nonnull person objcet.
-        Mockito.when(dbORM.findById(any(Person.class))).thenReturn(mockPerson);
+        Person mockPerson = new Person();
+        mockPerson.setUsername("pslyde0");
+        mockPerson.setPassword("x1Uul6CETGe");
         
-        assertNotNull(mockPerson);
+        Mockito.when(dbORM.create(any(Person.class))).thenReturn(mockPerson);
+        
+        Person returnedPerson = userServ.tryToRegister("abbraddon12", "x1Uul6CETGe","Brad","Lastname");
+        
+        assertNotNull(returnedPerson);
     }
     
     @Test
     void testRegisterInvalidUser() {
-    	Person mockPerson = userServ.tryToRegister("pslyde0", "password", "duplicate", "username");
-    	
-    	Mockito.when(dbORM.create(any(Person.class))).thenReturn(mockPerson);
-    	
-    	mockPerson = userServ.tryToRegister(mockPerson.getUsername(), mockPerson.getPassword(), mockPerson.getFirstName(), mockPerson.getLastName());
-    	
-    	assertNull(mockPerson);
+        Mockito.when(dbORM.create(any(Person.class))).thenReturn(null);
+        
+        Person returnedPerson = userServ.tryToRegister("abbraddon12", "x1Uul6CETGe","Brad","Lastname");
+
+    	assertNull(returnedPerson);
     }
     
     @Test
     void testLoginValidUser() {
     	Person mockPerson = new Person();
+    	mockPerson.setUsername("pslyde0");
+    	mockPerson.setPassword("x1Uul6CETGe");
+    	List<Object> people = new ArrayList<>(1);
+    	people.add(mockPerson);
     	
-    	Mockito.when(dbORM.create(any(Person.class))).thenReturn(mockPerson);
+    	Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(people);
     	
     	mockPerson = userServ.login("pslyde0", "x1Uul6CETGe");
     	
@@ -58,24 +66,47 @@ class UserServiceTest {
     
     @Test 
     void testLoginInvalidUsername() {
-    	Person mockPerson = new Person();
-    	
-    	Mockito.when(dbORM.create(any(Person.class))).thenReturn(mockPerson);
-    	
-    	mockPerson = userServ.login("wrong", "username");
-    	
-    	assertNull(mockPerson);
+        Person mockPerson = new Person();
+        mockPerson.setUsername("pslyde0");
+        mockPerson.setPassword("x1Uul6CETGe");
+        List<Object> people = new ArrayList<>(1);
+        people.add(mockPerson);
+        
+        Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(people);
+        
+        mockPerson = userServ.login("abbraddon12", "x1Uul6CETGe");
+        
+        assertNull(mockPerson);
     }
     
     @Test
     void testLoginInvalidPassword() {
-    	Person mockPerson = new Person();
-    	
-    	Mockito.when(dbORM.create(any(Person.class))).thenReturn(mockPerson);
-    	
-    	mockPerson = userServ.login("pslyde0", "wrong password");
-    	
-    	assertNull(mockPerson);
+        Person mockPerson = new Person();
+        mockPerson.setUsername("pslyde0");
+        mockPerson.setPassword("x1Uul6CETGe");
+        List<Object> people = new ArrayList<>(1);
+        people.add(mockPerson);
+        
+        Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(people);
+        
+        mockPerson = userServ.login("pslyde0", "ngjkrefbngkjfbnf");
+        
+        assertNull(mockPerson);
+    }
+    
+    @Test
+    void testGetPeople() {
+        Person mockPerson = new Person();
+        mockPerson.setUsername("pslyde0");
+        mockPerson.setPassword("x1Uul6CETGe");
+        List<Object> people = new ArrayList<>(1);
+        people.add(mockPerson);
+        
+        Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(people);
+        
+        List<Person> returnedList = userServ.getPeople();
+        
+        assertTrue(returnedList.size() == 1);
     }
     
 //    @Test

@@ -8,7 +8,6 @@ import com.revature.versusapp.models.Person;
 
 public class UserService { 
     private ORM dbORM;
-    private AlbumService albumService = new AlbumService();
     
     public UserService() {
         dbORM = new ORM();
@@ -23,16 +22,25 @@ public class UserService {
         return allPeople;
     }
     
+    /**
+     * Check if the there is an entry in the Person table with this 
+     * username and password.
+     * 
+     * @param username
+     * @param password
+     * @return A Person object with the information from the Person table
+     *         if there was a matching entry. If there was no matching entry
+     *         null will be returned.
+     */
     public Person login(String username, String password) {
-        Person foundPerson = new Person();
+        Person foundPerson = null;
     	List<Object> allAccounts = dbORM.findAll(Person.class);
-    	
     	
     	for ( Object object : allAccounts ) {
     	    Person personObject = (Person) object;
     	    
-    	    if ( personObject.getUsername().equals(username) ) {
-    	        if ( personObject.getPassword().equals(password) ) {
+    	    if ( personObject.getUsername() != null && personObject.getUsername().equals(username) ) {
+    	        if ( personObject.getPassword() != null && personObject.getPassword().equals(password) ) {
     	            foundPerson = personObject;
     	            break;
                 }

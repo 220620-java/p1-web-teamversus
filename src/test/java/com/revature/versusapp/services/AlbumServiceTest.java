@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -53,25 +54,28 @@ public class AlbumServiceTest {
     
     @Test
     void testGetAlbumById() {
-    	Album mockAlbum = new Album(1);
-    	Album albumWithTitle = new Album(1);
-    	albumWithTitle.setTitle("Album Title");
-    	
-    	Mockito.when(dbORM.findById(mockAlbum)).thenReturn(albumWithTitle);
-    	
-    	Album returnedAlbum = albumServ.getAlbumById(mockAlbum);
-    	
-    	assertNotEquals(returnedAlbum,mockAlbum);
+        Album mockAlbum = new Album(1);
+        Album albumWithTitle = new Album(1);
+        albumWithTitle.setTitle("Album Title");
+        
+        Mockito.when(dbORM.findById(mockAlbum)).thenReturn(albumWithTitle);
+        
+        Album returnedAlbum = albumServ.getAlbumById(mockAlbum);
+        
+        // If the album was found, we should get back an object with more
+        // information than was sent in.
+        assertNotEquals(returnedAlbum,mockAlbum);
     }
     
     @Test
     void testBadGetAlbumById() {
         Album mockAlbum = new Album(1);
 
-        Mockito.doThrow(new RuntimeException("exception")).when(dbORM).findById(any(Object.class));
+        Mockito.when(dbORM.findById(mockAlbum)).thenReturn(null);
         
-        // getAlbumById should consumes exceptions form the ORM:
-        assertDoesNotThrow(()->albumServ.getAlbumById(mockAlbum));
+        Album returnedAlbum = albumServ.getAlbumById(mockAlbum);
+        
+        assertNull(returnedAlbum);
     }
     
     @Test
@@ -82,6 +86,8 @@ public class AlbumServiceTest {
     	
     	Album returnedAlbum = albumServ.getAlbumById(mockAlbum);
     	
+    	// If the album was not found, we should get back no new information
+    	// than what was sent in.
     	assertEquals(returnedAlbum, mockAlbum);
     }
     

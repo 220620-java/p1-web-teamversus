@@ -40,26 +40,13 @@ public class AlbumService {
 		for (Object albums : findAllAlbums) {
 			Album album;
 			try {
-				album = Album.class.getConstructor().newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                album = Album.class.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
 			album = (Album) albums;
 			allAlbums.add(album);
 		}
