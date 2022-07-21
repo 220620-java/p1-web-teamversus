@@ -15,7 +15,7 @@ public class ArtistService {
 	
 	public boolean addArtist(Artist newArtist) {
 		newArtist = (Artist) dbORM.create(newArtist);
-		if (newArtist.equals(null)) {
+		if ( newArtist == null ) {
 			return false;
 		}
 		return true;
