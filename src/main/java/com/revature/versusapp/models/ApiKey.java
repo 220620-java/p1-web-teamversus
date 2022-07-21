@@ -1,6 +1,10 @@
 package com.revature.versusapp.models;
 
+import com.revature.versusapp.data.PrimaryKey;
+
+@PrimaryKey(name={"id"})
 public class ApiKey {
+    private int id;
 	private String apikey_id;
 	private int person_id;
 	
@@ -26,6 +30,13 @@ public class ApiKey {
 	public String toString() {
 		return "ApiKey [apikey_id=" + apikey_id + ", person_id=" + person_id + "]";
 	}
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+	
 	
 	
 }

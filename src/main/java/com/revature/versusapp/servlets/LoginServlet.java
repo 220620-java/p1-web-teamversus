@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.versusapp.models.Person;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
+import com.revature.versusapp.services.ApiKeyService;
 import com.revature.versusapp.services.UserService;
 import com.revature.versusapp.services.ersatz.ErsatzAuthService;
 import com.revature.versusapp.utils.ApiKeyUtil;
@@ -19,11 +21,13 @@ public class LoginServlet extends ErrorReportingHttpServlet {
     private ObjectMapper objMapper;
     private UserService userService;
     private ErsatzAuthService authService;
+    private ApiKeyService apikeyService;
 
     {
         userService = new UserService();
         objMapper = ObjectMapperUtil.getObjectMapper();
         authService = new ErsatzAuthService();
+        apikeyService = new ApiKeyService();
     }
 
     @Override
@@ -50,10 +54,13 @@ public class LoginServlet extends ErrorReportingHttpServlet {
         }
 
         // Try to login.
-        boolean loginWasSuccessful = userService.login(login.getUsername(),
-                                                       login.getPassword());
+//        boolean loginWasSuccessful = userService.login(login.getUsername(),
+//                                                       login.getPassword());
+        
+        Person person = userService.login(login.getUsername(),
+                login.getPassword());
 
-        if ( !loginWasSuccessful ) {
+        if ( person == null ) {
             errorMessage = "Username or password is incorrect.";
             code = HttpServletResponse.SC_UNAUTHORIZED;
             writeErrorResponse(resp, code, errorMessage);
@@ -62,7 +69,13 @@ public class LoginServlet extends ErrorReportingHttpServlet {
 
         // Generate an apikey for this login and return it to the user.
         String key = ApiKeyUtil.generateApiKey();
-        authService.addToApiKeyTable(login.getUsername(), key);
+        //authService.addToApiKeyTable(login.getUsername(), key);
+        //Person person = new Person();
+        //person.setId(1);
+        //person.setUsername(login.getUsername());
+        //person.setPassword(login.getPassword());
+        
+        apikeyService.addToApiKeyTable(person,key);
         Credentials credentials = new Credentials();
         credentials.setVersusApiKey(key);
         

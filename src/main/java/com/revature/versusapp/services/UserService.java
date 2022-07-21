@@ -23,23 +23,27 @@ public class UserService {
         return allPeople;
     }
     
-    public boolean login(String username, String password) {
+    public Person login(String username, String password) {
     	//Person person = new Person();
-        boolean successfulLogin = false;
+        Person foundPerson = null;
     	List<Object> allAccounts = dbORM.findAll(Person.class);
+    	
     	
     	for ( Object object : allAccounts ) {
     	    Person personObject = (Person) object;
+    	    
+    	    //System.out.println("loop" + personObject.getUsername() + " " + personObject.getPassword());
     	    if ( personObject.getUsername().equals(username) ) {
     	        if ( personObject.getPassword().equals(password) ) {
-    	            successfulLogin = true;
+    	            foundPerson = personObject;
+    	            
                 }
     	        
     	        break;
     	    }
     	}
     	
-    	return successfulLogin;
+    	return foundPerson;
     }
     
     public Person tryToRegister(String username, String passwrd, String firstName, String lastName) {
