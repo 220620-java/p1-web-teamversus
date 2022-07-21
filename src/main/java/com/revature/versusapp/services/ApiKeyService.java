@@ -8,9 +8,9 @@ import com.revature.versusapp.models.ApiKey;
 import com.revature.versusapp.models.Person;
 
 public class ApiKeyService {
-	private static ORM dbORM;
+	private ORM dbORM;
 	
-	static {
+	public ApiKeyService() {
 	    dbORM = new ORM();
 	}
 	
@@ -19,7 +19,7 @@ public class ApiKeyService {
 		
 		apikey = (ApiKey) dbORM.create(apikey);
 		
-		if(apikey.equals(null)) {
+		if( apikey == null ) {
 			return false;
 		}
 		return true;
