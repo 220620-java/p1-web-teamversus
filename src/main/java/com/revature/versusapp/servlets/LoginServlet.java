@@ -9,7 +9,6 @@ import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.Login;
 import com.revature.versusapp.services.ApiKeyService;
 import com.revature.versusapp.services.UserService;
-import com.revature.versusapp.services.ersatz.ErsatzAuthService;
 import com.revature.versusapp.utils.ApiKeyUtil;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
@@ -20,13 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LoginServlet extends ErrorReportingHttpServlet {
     private ObjectMapper objMapper;
     private UserService userService;
-    private ErsatzAuthService authService;
     private ApiKeyService apikeyService;
 
     {
         userService = new UserService();
         objMapper = ObjectMapperUtil.getObjectMapper();
-        authService = new ErsatzAuthService();
         apikeyService = new ApiKeyService();
     }
 

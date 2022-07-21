@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.versusapp.models.Person;
 import com.revature.versusapp.models.rest.Credentials;
 import com.revature.versusapp.models.rest.JsonRegistration;
+import com.revature.versusapp.services.ApiKeyService;
 import com.revature.versusapp.services.UserService;
-import com.revature.versusapp.services.ersatz.ErsatzAuthService;
 import com.revature.versusapp.utils.ApiKeyUtil;
 import com.revature.versusapp.utils.ObjectMapperUtil;
 
@@ -19,12 +19,12 @@ import jakarta.servlet.http.HttpServletResponse;
 public class RegistrationServlet extends ErrorReportingHttpServlet{
     private ObjectMapper objMapper;
     private UserService userService;
-    private ErsatzAuthService authService;
+    private ApiKeyService apikeyService;
 
     {
         userService = new UserService();
         objMapper = ObjectMapperUtil.getObjectMapper();
-        authService = new ErsatzAuthService();
+        apikeyService = new ApiKeyService();
     }
     
     @Override
@@ -63,7 +63,8 @@ public class RegistrationServlet extends ErrorReportingHttpServlet{
 
         // Generate an apikey for this login and return it to the user.
         String key = ApiKeyUtil.generateApiKey();
-        authService.addToApiKeyTable(registration.getUsername(), key);
+        //authService.addToApiKeyTable(registration.getUsername(), key);
+        apikeyService.addToApiKeyTable(person,key);
         Credentials credentials = new Credentials();
         credentials.setVersusApiKey(key);
         
