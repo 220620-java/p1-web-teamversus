@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.versusapp.data.ORM;
@@ -29,6 +30,8 @@ public class AlbumServiceTest {
     void testAddValidAlbum() {
     	Album mockAlbum = new Album("Peaches", 5);
     	
+    	
+    	
     	Boolean addMockAlbum = albumServ.addAlbum(mockAlbum);
     	
     	assertTrue(addMockAlbum);
@@ -38,6 +41,8 @@ public class AlbumServiceTest {
     void testAddInvalidAlbum() {
     	//Artist_id 999 does not exist in the database
     	Album mockAlbum = new Album("Peaches", 999);
+    	
+    	Mockito.when(dbORM.create(any(Object.class))).thenReturn(false);
     	
     	Boolean addMockAlbum = albumServ.addAlbum(mockAlbum);
     	

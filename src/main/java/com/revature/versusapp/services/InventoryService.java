@@ -19,7 +19,7 @@ public class InventoryService {
 	public Boolean addItem(Person person, Album album) {
 		Inventory newItem = new Inventory(person.getId(), album.getId());
 		newItem = (Inventory) dbORM.create(newItem);
-		if (newItem.equals(null)) {
+		if (newItem ==null ) {
 			return false;
 		}
 		return true;

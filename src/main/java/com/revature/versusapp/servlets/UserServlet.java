@@ -121,7 +121,7 @@ public class UserServlet extends ErrorReportingHttpServlet {
         InventoryItem invItem = new InventoryItem();
         invItem.setUsername(user.getUsername());
         
-        List<Inventory> inv = InventoryService.getInventories();
+        List<Inventory> inv = invService.getInventories();
 
         for ( Inventory item : inv ) {
             if (item.getPersonId() == user.getId() ) 
@@ -131,7 +131,7 @@ public class UserServlet extends ErrorReportingHttpServlet {
                 
                 Album album = new Album();
                 album.setId(albumId);
-                album = AlbumService.getAlbumById(album);
+                album = albumService.getAlbumById(album);
                 
                 int artistId = album.getArtistId();
                 String stagename = artistMap.get(artistId);
@@ -277,6 +277,8 @@ public class UserServlet extends ErrorReportingHttpServlet {
         
         Album album = new Album();
         album.setId(albumId.getAlbumId());
+        
+        System.out.println("adding album " + albumId.getAlbumId() + " to user " + user.getId());
         
         boolean added = invService.addItem(user,album);
         

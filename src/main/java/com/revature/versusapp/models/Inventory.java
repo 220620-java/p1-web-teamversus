@@ -4,6 +4,7 @@ import com.revature.versusapp.data.PrimaryKey;
 
 @PrimaryKey(name={"id"})
 public class Inventory {
+    private int id;
     private int personId;
     private int albumId;
     
@@ -16,6 +17,14 @@ public class Inventory {
         this.albumId = albumId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getPersonId() {
         return personId;
     }

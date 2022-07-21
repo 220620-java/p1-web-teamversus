@@ -1,17 +1,9 @@
 package com.revature.versusapp.services;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.List;
-
-import com.revature.versusapp.data.ORM;
-import com.revature.versusapp.models.Album;
-=======
 import java.util.LinkedList;
 import java.util.List;
 
 import com.revature.versusapp.data.ORM;
->>>>>>> d73a97f (Handle get on base user path)
 import com.revature.versusapp.models.Person;
 
 public class UserService { 
