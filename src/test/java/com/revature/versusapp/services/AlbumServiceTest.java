@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.versusapp.data.ORM;
 import com.revature.versusapp.models.Album;
+import com.revature.versusapp.models.Inventory;
+import com.revature.versusapp.models.Person;
 
 @ExtendWith(MockitoExtension.class)
 public class AlbumServiceTest {
@@ -110,5 +114,16 @@ public class AlbumServiceTest {
     	Mockito.doNothing().when(dbORM).delete(any(Album.class));
     	
     	assertDoesNotThrow(()->albumServ.delete(mockAlbum));
+    }
+    
+    @Test
+    void testUpdateAlbum() {
+        Album mockAlbum = new Album(5);
+        
+        Mockito.doNothing().when(dbORM).update(any(Album.class));
+        albumServ.update(mockAlbum);
+        
+        // verify that the ORM's delete method is called only once.
+        verify(dbORM,times(1)).update(any(Album.class));
     }
 }
