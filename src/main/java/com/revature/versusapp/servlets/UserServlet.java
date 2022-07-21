@@ -118,7 +118,6 @@ public class UserServlet extends ErrorReportingHttpServlet {
 
         for (Artist artist : artists) {
             artistMap.put(artist.getId(), artist.getStageName());
-            //System.out.println(artist.getId() + ":" + artist.getStageName());
         }
         
         InventoryItem invItem = new InventoryItem();
@@ -129,7 +128,6 @@ public class UserServlet extends ErrorReportingHttpServlet {
         for ( Inventory item : inv ) {
             if (item.getPersonId() == user.getId() ) 
             {
-                //System.out.println(item.getPersonId() + ":" + item.getAlbumId());
                 int albumId = item.getAlbumId();
                 
                 Album album = new Album();
@@ -250,10 +248,7 @@ public class UserServlet extends ErrorReportingHttpServlet {
         Album album = new Album();
         album.setId(albumId.getAlbumId());
         
-        System.out.println("deleting album " + albumId.getAlbumId() + " from user " + user.getId());
-        
         invService.deleteItem(user, album);
-        
         resp.setStatus(HttpServletResponse.SC_OK);
     }
     
@@ -314,8 +309,6 @@ public class UserServlet extends ErrorReportingHttpServlet {
         
         Album album = new Album();
         album.setId(albumId.getAlbumId());
-        
-        System.out.println("adding album " + albumId.getAlbumId() + " to user " + user.getId());
         
         boolean added = invService.addItem(user,album);
         

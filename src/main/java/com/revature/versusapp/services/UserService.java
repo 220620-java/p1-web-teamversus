@@ -32,7 +32,6 @@ public class UserService {
     	for ( Object object : allAccounts ) {
     	    Person personObject = (Person) object;
     	    
-    	    //System.out.println("loop" + personObject.getUsername() + " " + personObject.getPassword());
     	    if ( personObject.getUsername().equals(username) ) {
     	        if ( personObject.getPassword().equals(password) ) {
     	            foundPerson = personObject;

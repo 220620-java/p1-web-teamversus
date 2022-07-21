@@ -30,12 +30,8 @@ public class ApiKeyService {
 		List<Object> allApiKeys = new ArrayList();
 		allApiKeys = dbORM.findAll(ApiKey.class);
 		
-		System.out.println("looking fir: " + person.getId() + " " + key);
-		System.out.println(allApiKeys.size() + " items");
-		
 		for(Object object : allApiKeys) {
 			ApiKey apiKey = (ApiKey) object;
-			System.out.println("looking at: " + apiKey.getPerson_id() + " " + apiKey.getApikey_id() );
 			if (apiKey.getPerson_id() == person.getId()) {
 				if (apiKey.getApikey_id().equals(key)) {
 					match = true;
