@@ -1,15 +1,19 @@
 package com.revature.versusapp.services;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.versusapp.data.ORM;
@@ -25,70 +29,61 @@ public class InventoryServiceTest {
     @Mock
     private ORM dbORM;
     
-//    @Test
-//    void testAddValidItem() {
-//    	Person mockPerson = new Person(5);
-//    	Album mockAlbum = new Album(5);
-//    	Boolean addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
-//    	
-//    	assertTrue(addMockItem);
-//    }
-    
     @Test
-    void testAddInvalidItem1() {
-    	// invalid Person
-    	Person mockPerson = new Person(999);
+    void testAddValidItem() {
+    	Person mockPerson = new Person(5);
     	Album mockAlbum = new Album(5);
-    	Boolean addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
+    	Inventory mockItem = new Inventory(5,5);
     	
-    	assertFalse(addMockItem);
-    }
-    
-    @Test
-    void testAddInvalidItem2() {
-    	// invalid album
-    	Person mockPerson = new Person(5);
-    	Album mockAlbum = new Album(999);
-    	Boolean addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
+    	ArrayList<Object> mockInventory= new ArrayList<>(1);
+    	mockInventory.add(new Inventory(6,6));
     	
-    	assertFalse(addMockItem);
-    }
-    
-    @Test
-    void testAddInvalidItem3() {
-    	// person and album are invalid
-    	Person mockPerson = new Person(999);
-    	Album mockAlbum = new Album(999);
-    	Boolean addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
+    	Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(mockInventory);
+    	Mockito.when(dbORM.create(any(Inventory.class))).thenReturn(mockItem);
     	
-    	assertFalse(addMockItem);
-    }
-    
-//    @Test
-//    void testDeleteItem() {
-//    	Person mockPerson = new Person(5);
-//    	Album mockAlbum = new Album(5);
-//    	Boolean addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
-//    	inventoryServ.deleteItem(mockPerson, mockAlbum);
-//    	addMockItem = inventoryServ.addItem(mockPerson, mockAlbum);
-//    	
-//    	assertTrue(addMockItem);
-//    }
-    
-    @Test
-    void testGetInventories() {
-    	List<Inventory> mockInventories = inventoryServ.getInventories();
-    	
-    	assertNotNull(mockInventories);
-    }
-    
-    @Test
-    void testGetInventoriesByPersonId() {
-    	Person mockPerson = new Person(5);
-    	List<Inventory> mockInventories = inventoryServ.getInventoryByPersonId(mockPerson);
-    	
-    	assertNotNull(mockInventories);
-    }
-    
+    	boolean itemAdded = inventoryServ.addItem(mockPerson,mockAlbum);
 
+    	assertTrue(itemAdded);
+    }
+    
+    @Test
+    void testAddAlreadyPresentItem() {
+        Person mockPerson = new Person(5);
+        Album mockAlbum = new Album(5);
+        
+        ArrayList<Object> mockInventory= new ArrayList<>(1);
+        mockInventory.add(new Inventory(5,5));
+        
+        Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(mockInventory);
+        boolean itemAdded = inventoryServ.addItem(mockPerson,mockAlbum);
+
+        assertFalse(itemAdded);
+    }
+    
+    @Test
+    void testAddInvalidItem() {
+        Person mockPerson = new Person(5);
+        Album mockAlbum = new Album(5);
+        
+        ArrayList<Object> mockInventory= new ArrayList<>(1);
+        
+        Mockito.when(dbORM.findAll(any(Class.class))).thenReturn(mockInventory);
+        Mockito.when(dbORM.create(any(Inventory.class))).thenReturn(null);
+        
+        boolean itemAdded = inventoryServ.addItem(mockPerson,mockAlbum);
+
+        assertFalse(itemAdded);
+    }
+    
+    @Test
+    void testDeleteItem() {
+        Person mockPerson = new Person(5);
+        Album mockAlbum = new Album(5);
+        
+        Mockito.doNothing().when(dbORM).delete(any(Inventory.class));
+        inventoryServ.deleteItem(mockPerson, mockAlbum);
+        
+        // verify that the ORM's delete method is called only once.
+        verify(dbORM,times(1)).delete(any(Inventory.class));
+    }
 }

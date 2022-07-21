@@ -10,7 +10,7 @@ import com.revature.versusapp.models.Inventory;
 import com.revature.versusapp.models.Person;
 
 public class InventoryService {
-	private static ORM dbORM;
+	private ORM dbORM;
 	
 	public InventoryService() {
         dbORM = new ORM();
@@ -46,7 +46,7 @@ public class InventoryService {
 	}
 	
 	public List<Inventory> getInventories() {
-		List<Inventory> allInventories = new ArrayList();
+		List<Inventory> allInventories = new ArrayList<>();
 		Inventory inventory = new Inventory();
 		
 		try {
@@ -63,14 +63,14 @@ public class InventoryService {
 		return allInventories;
 	}
 	
-	public List<Inventory> getInventoryByPersonId(Person person) {
-		int personId = person.getId();
-		List<Inventory> inventory = getInventories();
-		for(Inventory item : inventory) {
-			if (item.getPersonId() == personId) {
-				inventory.add(item);
-			}
-		}
-		return inventory;
-	}
+//	public List<Inventory> getInventoryByPersonId(Person person) {
+//		int personId = person.getId();
+//		List<Inventory> inventory = getInventories();
+//		for(Inventory item : inventory) {
+//			if (item.getPersonId() == personId) {
+//				inventory.add(item);
+//			}
+//		}
+//		return inventory;
+//	}
 }
