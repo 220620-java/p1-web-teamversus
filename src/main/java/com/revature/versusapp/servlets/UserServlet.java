@@ -18,6 +18,7 @@ import com.revature.versusapp.models.rest.InventoryItem;
 import com.revature.versusapp.models.rest.JsonAlbum;
 import com.revature.versusapp.models.rest.JsonPerson;
 import com.revature.versusapp.services.AlbumService;
+import com.revature.versusapp.services.ApiKeyService;
 import com.revature.versusapp.services.ArtistService;
 import com.revature.versusapp.services.InventoryService;
 import com.revature.versusapp.services.UserService;
@@ -99,7 +100,8 @@ public class UserServlet extends ErrorReportingHttpServlet {
     private UserService userService;
     private InventoryService invService;
     private ArtistService artistService;
-    AlbumService albumService;
+    private ApiKeyService apiKeyService;
+    private AlbumService albumService;
 
     {
         userService = new UserService();
@@ -107,6 +109,7 @@ public class UserServlet extends ErrorReportingHttpServlet {
         invService = new InventoryService();
         artistService = new ArtistService();
         albumService = new AlbumService();
+        apiKeyService = new ApiKeyService();
     }
     
     void inventoryGetRequest(Person user, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -193,6 +196,16 @@ public class UserServlet extends ErrorReportingHttpServlet {
     
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String apiKey = req.getHeader("versus-api-key");
+        
+        if ( apiKey == null ) {
+            String message = "versus-api-key must be supplied in request header.";
+            writeErrorResponse(resp, HttpServletResponse.SC_UNAUTHORIZED, message);
+            return;
+        }
+        
+        
         StringBuffer url = req.getRequestURL();
         URL urlObject = new URL(url.toString());
         ParseResult result = new ParseResult(urlObject.getPath());
@@ -206,6 +219,12 @@ public class UserServlet extends ErrorReportingHttpServlet {
         
         if ( user == null ) {
             writeErrorResponse(resp, 404, "Invalid username URL.");
+            return;
+        }
+        
+        if ( !apiKeyService.keysMatch(user,apiKey) ) {
+            writeErrorResponse(resp, HttpServletResponse.SC_FORBIDDEN, "You're not allowed to modify this user's inventory.");
+            return;
         }
         
         // Attempt to deserialize the request body as a AlbumId object. Return
@@ -232,6 +251,7 @@ public class UserServlet extends ErrorReportingHttpServlet {
         album.setId(albumId.getAlbumId());
         
         System.out.println("deleting album " + albumId.getAlbumId() + " from user " + user.getId());
+        
         invService.deleteItem(user, album);
         
         resp.setStatus(HttpServletResponse.SC_OK);
@@ -240,6 +260,16 @@ public class UserServlet extends ErrorReportingHttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        String apiKey = req.getHeader("versus-api-key");
+        
+        if ( apiKey == null ) {
+            String message = "versus-api-key must be supplied in request header.";
+            writeErrorResponse(resp, HttpServletResponse.SC_UNAUTHORIZED, message);
+            return;
+        }
+        
+        
         StringBuffer url = req.getRequestURL();
         URL urlObject = new URL(url.toString());
         ParseResult result = new ParseResult(urlObject.getPath());
@@ -253,7 +283,14 @@ public class UserServlet extends ErrorReportingHttpServlet {
         
         if ( user == null ) {
             writeErrorResponse(resp, 404, "Invalid username URL.");
+            return;
         }
+        
+        if ( !apiKeyService.keysMatch(user,apiKey) ) {
+            writeErrorResponse(resp, HttpServletResponse.SC_FORBIDDEN, "You're not allowed to modify this user's inventory.");
+            return;
+        }
+        
         
         // Attempt to deserialize the request body as a AlbumId object. Return
         // SC_BAD_REQUEST if unable to do so.
@@ -282,13 +319,13 @@ public class UserServlet extends ErrorReportingHttpServlet {
         
         boolean added = invService.addItem(user,album);
         
-        if ( added ) {
-            resp.setStatus(HttpServletResponse.SC_OK);
-        }
-        else {
+        if ( !added ) {
             errorMessage = "This album is already in the user's inventory.";
             writeErrorResponse(resp, HttpServletResponse.SC_CONFLICT, errorMessage);
+            return;
         }
+
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
     
      @Override

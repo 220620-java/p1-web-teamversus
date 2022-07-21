@@ -17,6 +17,21 @@ public class InventoryService {
     }
 	
 	public Boolean addItem(Person person, Album album) {
+	    
+	    List<Inventory> totalInventory = getInventories();
+	    boolean alreadyPresent = false;
+	    for (Inventory item : totalInventory ) {
+	        if ( item.getAlbumId() == album.getId()
+	                && item.getPersonId() == person.getId() ) {
+	            alreadyPresent = true;
+	            break;
+	        }
+	    }
+	    
+	    if ( alreadyPresent ) {
+	        return false;
+	    }
+	    
 		Inventory newItem = new Inventory(person.getId(), album.getId());
 		newItem = (Inventory) dbORM.create(newItem);
 		if (newItem ==null ) {

@@ -14,6 +14,11 @@ public class ApiKey {
 		this.apikey_id = apikey_id;
 		this.person_id = person_id;
 	}
+	
+    public ApiKey() {
+        super();
+    }
+	
 	public String getApikey_id() {
 		return apikey_id;
 	}
