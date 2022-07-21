@@ -8,15 +8,15 @@ import com.revature.versusapp.models.Album;
 import com.revature.versusapp.models.Artist;
 
 public class AlbumService {
-	private static ORM dbORM;
+	private ORM dbORM;
 	
 	public AlbumService() {
-        dbORM = new ORM();
+	    dbORM = new ORM();
     }
 	
 	public boolean addAlbum(Album newAlbum) {
 		newAlbum = (Album) dbORM.create(newAlbum);
-		if (newAlbum.equals(null)) {
+		if ( newAlbum == null ) {
 			return false;
 		}
 		return true;

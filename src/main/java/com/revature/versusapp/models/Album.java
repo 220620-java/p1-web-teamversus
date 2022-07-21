@@ -14,7 +14,7 @@ public class Album {
 		super();
 	}
 
-	public Album(int id) {
+    public Album(int id) {
 		super();
 		this.id = id;
 	}

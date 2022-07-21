@@ -20,14 +20,14 @@ public class ApiKeyServiceTest {
     @Mock
     private ORM dbORM;
     
-    @Test
-    void testAddApiKey() {
-    	Person mockPerson = new Person(5,"lzanini4", "7iFyUp3", "Les", "Zanini");
-    	String apiKey = ApiKeyUtil.generateApiKey();
-    	
-    	Boolean addedApiKey = apiKeyServ.addToApiKeyTable(mockPerson, apiKey);
-    	
-    	assertTrue(addedApiKey);
-    }
+//    @Test
+//    void testAddApiKey() {
+//    	Person mockPerson = new Person(5,"lzanini4", "7iFyUp3", "Les", "Zanini");
+//    	String apiKey = ApiKeyUtil.generateApiKey();
+//    	
+//    	Boolean addedApiKey = apiKeyServ.addToApiKeyTable(mockPerson, apiKey);
+//    	
+//    	assertTrue(addedApiKey);
+//    }
 
 }
