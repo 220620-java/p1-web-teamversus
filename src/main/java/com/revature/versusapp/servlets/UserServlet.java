@@ -192,6 +192,21 @@ public class UserServlet extends ErrorReportingHttpServlet {
         return user;
     }
     
+    private boolean albumExists(int id) {
+        boolean exists = false;
+        
+        List<Album> albums = albumService.getAlbums();
+        
+        for (Album album : albums ) {
+            if ( album.getId() == id ) {
+                exists = true;
+                break;
+            }
+        }
+        
+        return exists;
+    }
+    
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -307,9 +322,16 @@ public class UserServlet extends ErrorReportingHttpServlet {
             return;
         }
         
+
+        // First verify that there actually is an album with this id.
+        if ( !albumExists(albumId.getAlbumId()) ) {
+            errorMessage = "There is no album with the provided id.";
+            writeErrorResponse(resp, HttpServletResponse.SC_BAD_REQUEST, errorMessage);
+            return;
+        }
+        
         Album album = new Album();
         album.setId(albumId.getAlbumId());
-        
         boolean added = invService.addItem(user,album);
         
         if ( !added ) {
